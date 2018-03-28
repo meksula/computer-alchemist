@@ -1,6 +1,6 @@
 Computer Alchemist 1.0 SNAPSHOT
 
-REST web service that allows you to quickly build your own computer set.
+RESTful web service that allows you to quickly build your own computer set.
 Your set can be consulted with our technicians who will build a computer after valuation!
 You can also discuss with other users.
 
