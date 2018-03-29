@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,10 +17,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserRepositoryImpl implements UserRepository {
     private MongoOperations mongoOperations;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public void setMongoOperations(MongoOperations mongoOperations) {
+    public void setMongoOperations(MongoOperations mongoOperations, PasswordEncoder passwordEncoder) {
         this.mongoOperations = mongoOperations;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -31,6 +34,14 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void save(User user) {
-        mongoOperations.save(user, "user");
+        User updated = encode(user);
+        mongoOperations.save(updated, "user");
+    }
+
+    private User encode(User user) {
+        String beforeEncode = user.getPassword();
+        String afterEncode = passwordEncoder.encode(beforeEncode);
+        user.setPassword(afterEncode);
+        return user;
     }
 }

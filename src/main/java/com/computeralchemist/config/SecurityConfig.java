@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.ForwardAuthenticationFailureHandler;
 
 /**
  * @Author
@@ -21,7 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * */
 
 @Configuration
-//@EnableWebSecurity
+@EnableWebSecurity
 @ComponentScan(basePackages = "com.computeralchemist.security")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
@@ -50,9 +52,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
+        http.csrf().disable();
+
+        http.exceptionHandling().authenticationEntryPoint(entryPoint)
+                .and()
+                .authorizeRequests().antMatchers("/api/user/**").authenticated()
+                .and().formLogin().successHandler(authenticationSuccessHandlerImpl())
+                .failureHandler(new ForwardAuthenticationFailureHandler("/api/user/denied"))
+                .and().authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/api/user").permitAll()
+                .and().logout();
     }
 }
