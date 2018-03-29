@@ -14,3 +14,4 @@ Technologies:
 - JUnit & Mockito unit tests framework
 
 
+![alt text](https://github.com/meksula/computer-alchemist/blob/master/computer-alchemist.png)
