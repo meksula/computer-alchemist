@@ -1,0 +1,21 @@
+A snippet of Computer Alchemist API documentation.
+
+Description: Main path
+URL: /
+
+Description: Full Api's documentation
+URL: /doc
+
+
+API based on three main modules:
+* User module
+
+    URL: /user
+
+* Service module
+
+    URL: /service
+
+* Public resources (free access)
+
+    URL: /pub

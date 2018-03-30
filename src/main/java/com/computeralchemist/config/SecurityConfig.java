@@ -1,6 +1,5 @@
 package com.computeralchemist.config;
 
-import com.computeralchemist.security.AuthenticationSuccessHandlerImpl;
 import com.computeralchemist.security.EntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.ForwardAuthenticationFailureHandler;
 
 /**
  * @Author
@@ -36,16 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public AuthenticationSuccessHandlerImpl authenticationSuccessHandlerImpl() {
-        return new AuthenticationSuccessHandlerImpl();
-    }
-
-    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-    //TODO failure handler
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -56,13 +47,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
 
-        http.exceptionHandling().authenticationEntryPoint(entryPoint)
+        http    .authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers(HttpMethod.POST, "/register").permitAll()
+                .antMatchers("/public-api/**").permitAll()
+                .antMatchers("/components").permitAll()
+                .anyRequest().authenticated()
                 .and()
-                .authorizeRequests().antMatchers("/api/user/**").authenticated()
-                .and().formLogin().successHandler(authenticationSuccessHandlerImpl())
-                .failureHandler(new ForwardAuthenticationFailureHandler("/api/user/denied"))
-                .and().authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/user").permitAll()
-                .and().logout();
+                .formLogin()
+                .and()
+                .httpBasic();
+
     }
 }

@@ -1,6 +1,7 @@
-package com.computeralchemist.repository;
+package com.computeralchemist.repository.users;
 
 import com.computeralchemist.domain.User;
+import com.computeralchemist.repository.users.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;

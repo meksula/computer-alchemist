@@ -1,7 +1,7 @@
 package com.computeralchemist.security;
 
 import com.computeralchemist.domain.User;
-import com.computeralchemist.repository.UserRepository;
+import com.computeralchemist.repository.users.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
