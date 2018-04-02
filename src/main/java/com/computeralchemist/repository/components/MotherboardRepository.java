@@ -1,7 +1,6 @@
 package com.computeralchemist.repository.components;
 
-import com.computeralchemist.domain.components.ComputerComponent;
-import com.computeralchemist.domain.components.Motherboard;
+import com.computeralchemist.domain.components.motherboard.Motherboard;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
@@ -13,10 +12,15 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 public interface MotherboardRepository extends MongoRepository<Motherboard, Long> {
 
     @Override
+    long count();
+
+    @Override
     <S extends Motherboard> S save(S motherboard);
 
     Motherboard findByModel(String model);
 
-    @Override
-    long count();
+    Motherboard findByProductId(long productId);
+
+    void deleteByProductId(long productId);
+
 }

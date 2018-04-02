@@ -1,6 +1,6 @@
 package com.computeralchemist.repository.users;
 
-import com.computeralchemist.domain.User;
+import com.computeralchemist.domain.users.User;
 
 /**
  * @Author
