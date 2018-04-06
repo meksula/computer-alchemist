@@ -1,9 +1,7 @@
 package com.computeralchemist.repository.others;
 
 import com.computeralchemist.config.RootConfig;
-import com.computeralchemist.domain.components.motherboard.Motherboard;
-import com.computeralchemist.repository.components.MotherboardRepository;
-import org.junit.After;
+import com.computeralchemist.repository.components.motherboard.MotherboardRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +31,12 @@ public class MongoIncrementTest {
         assertNotNull(mongoIncrement);
     }
 
-    @Test
+   /* @Test
     public void sutShouldAssignNextLongNumberMotherboards() {
         long id = mongoIncrement.assignMotherboardId();
         long id_expected = motherboardRepository.count();
 
         assertEquals(id, id_expected + 1);
-    }
+    }*/
 
 }
