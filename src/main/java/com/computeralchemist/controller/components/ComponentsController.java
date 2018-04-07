@@ -1,6 +1,6 @@
 package com.computeralchemist.controller.components;
 
-import com.computeralchemist.controller.RepositoryMap;
+import com.computeralchemist.controller.RepositoryMapper;
 import com.computeralchemist.domain.components.ComputerComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,10 +10,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RestController
 @RequestMapping("/components/{component}/{id}")
 public class ComponentsController {
-    private RepositoryMap repositoryMap;
+    private RepositoryMapper repositoryMap;
 
     @Autowired
-    public void setRepositoryMap(RepositoryMap repositoryMap) {
+    public void setRepositoryMap(RepositoryMapper repositoryMap) {
         this.repositoryMap = repositoryMap;
     }
 

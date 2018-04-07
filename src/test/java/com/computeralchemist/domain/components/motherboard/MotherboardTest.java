@@ -32,7 +32,7 @@ public class MotherboardTest {
         motherboard.setCompatibiltyIndex(COMP_INDX);
         motherboard.setMotherboardParameters(componentParameters);
         motherboard.setDescription(DESC);
-        motherboard.setUrlToPicture(URL);
+        motherboard.setUrlToResource(URL);
     }
 
     @Test
@@ -48,7 +48,7 @@ public class MotherboardTest {
         assertEquals(MODEL, motherboard.getModel());
         assertEquals(DESC, motherboard.getDescription());
         assertEquals(COMP_INDX, motherboard.getCompatibiltyIndex(), DELTA);
-        assertEquals(URL, motherboard.getUrlToPicture());
+        assertEquals(URL, motherboard.getUrlToResource());
     }
 
 }

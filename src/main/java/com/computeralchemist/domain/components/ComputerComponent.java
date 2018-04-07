@@ -10,7 +10,7 @@ public abstract class ComputerComponent {
     private String producent;
     private String model;
     private String description;
-    private String urlToPicture;
+    private String urlToResource;
     private double compatibiltyIndex;
     private ComponentType componentType;
 
@@ -46,19 +46,19 @@ public abstract class ComputerComponent {
         this.compatibiltyIndex = compatibiltyIndex;
     }
 
-    public String getUrlToPicture() {
-        return urlToPicture;
-    }
-
-    public void setUrlToPicture(String urlToPicture) {
-        this.urlToPicture = urlToPicture;
-    }
-
     public ComponentType getComponentType() {
         return componentType;
     }
 
     public void setComponentType(ComponentType componentType) {
         this.componentType = componentType;
+    }
+
+    public String getUrlToResource() {
+        return urlToResource;
+    }
+
+    public void setUrlToResource(String urlToResource) {
+        this.urlToResource = urlToResource;
     }
 }

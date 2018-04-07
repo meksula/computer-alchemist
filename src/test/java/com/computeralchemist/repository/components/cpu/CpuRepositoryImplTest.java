@@ -23,7 +23,9 @@ import static org.mockito.Mockito.mock;
 @ContextConfiguration(classes = RootConfig.class)
 public class CpuRepositoryImplTest {
 
-    @Autowired
+    //TODO napisać testy z embedded database, a nie z bazą produkcyjną...
+
+    /*@Autowired
     private CpuRepository cpuRepository;
 
     @Test
@@ -71,5 +73,5 @@ public class CpuRepositoryImplTest {
 
         Cpu cpu = cpuRepository.findByProductId(ID);
         assertNull(cpu);
-    }
+    }*/
 }

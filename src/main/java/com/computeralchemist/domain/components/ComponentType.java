@@ -1,9 +1,5 @@
 package com.computeralchemist.domain.components;
 
-import com.computeralchemist.domain.components.motherboard.Motherboard;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 /**
  * @Author
  * Karol Meksuła
@@ -11,6 +7,6 @@ import org.springframework.stereotype.Service;
  * */
 
 public enum ComponentType {
-    MOTHERBOARD, CPU, GPU, RAM, DISK, POWER_SUPPLY, CASE, OTHERS;
+    MOTHERBOARD, CPU, GPU, RAM, DISK, PWR_SUPPLY, CASE, OTHERS;
 
 }

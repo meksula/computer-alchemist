@@ -1,6 +1,6 @@
 package com.computeralchemist.controller.components;
 
-import com.computeralchemist.controller.RepositoryMap;
+import com.computeralchemist.controller.RepositoryMapper;
 import com.computeralchemist.domain.components.JsonParsers;
 import com.computeralchemist.domain.components.motherboard.Motherboard;
 import com.computeralchemist.domain.components.motherboard.MotherboardParameters;
@@ -22,10 +22,10 @@ import java.util.LinkedHashMap;
 @RestController
 @RequestMapping("/new/components/{type}")
 public class NewComponentsController {
-    private RepositoryMap repositoryMap;
+    private RepositoryMapper repositoryMap;
 
     @Autowired
-    public void setRepositoryMap(RepositoryMap repositoryMap) {
+    public void setRepositoryMap(RepositoryMapper repositoryMap) {
         this.repositoryMap = repositoryMap;
     }
 

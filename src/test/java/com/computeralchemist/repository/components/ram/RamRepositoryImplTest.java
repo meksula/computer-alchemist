@@ -23,7 +23,9 @@ import static org.mockito.Mockito.mock;
 @ContextConfiguration(classes = RootConfig.class)
 public class RamRepositoryImplTest {
 
-    @Autowired
+    //TODO napisać testy z embedded database, a nie z bazą produkcyjną...
+
+    /*@Autowired
     private RamRepository ramRepository;
 
     @Test
@@ -37,39 +39,20 @@ public class RamRepositoryImplTest {
         assertEquals(0, size);
     }
 
-    private final long ID = 10000;
     private final String MODEL = "DVscw3";
     private final String PRODUCENT = "MACWECEJ";
 
     private Ram provideRam() {
-        RamParameters parameters = mock(RamParameters.class);
 
-        Ram ram = new Ram();
-        ram.setProductId(ID);
-        ram.setProducent(PRODUCENT);
-        ram.setModel(MODEL);
-        ram.setComponentType(ComponentType.RAM);
-        ram.setRamParameters(parameters);
-
-        return ram;
     }
 
     @Test
     public void saveTest() {
-        ramRepository.save(provideRam());
 
-        Ram ram = ramRepository.findByProductId(ID);
-        assertEquals(ID, ram.getProductId());
-        assertEquals(PRODUCENT, ram.getProducent());
-        assertEquals(MODEL, ram.getModel());
-        assertTrue(ram.getComponentType() == ComponentType.RAM);
     }
 
     @Test
     public void ableToRemoveTest() {
-        ramRepository.deleteByProductId(ID);
 
-        Ram ram = ramRepository.findByProductId(ID);
-        assertNull(ram);
-    }
+    }*/
 }

@@ -23,7 +23,9 @@ import static org.mockito.Mockito.mock;
 @ContextConfiguration(classes = RootConfig.class)
 public class MotherboardRepositoryImplTest {
 
-    @Autowired
+    //TODO napisać testy z embedded database, a nie z bazą produkcyjną...
+
+    /*@Autowired
     private MotherboardRepository motherboardRepository;
 
     @Test
@@ -71,5 +73,5 @@ public class MotherboardRepositoryImplTest {
 
         Motherboard motherboard = motherboardRepository.findByProductId(ID);
         assertNull(motherboard);
-    }
+    }*/
 }

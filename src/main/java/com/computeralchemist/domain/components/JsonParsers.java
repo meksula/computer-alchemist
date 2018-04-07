@@ -1,6 +1,7 @@
 package com.computeralchemist.domain.components;
 
 import com.computeralchemist.domain.components.cpu.Cpu;
+import com.computeralchemist.domain.components.disk.Disk;
 import com.computeralchemist.domain.components.motherboard.Motherboard;
 import com.computeralchemist.domain.components.ram.Ram;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,6 +34,13 @@ public enum JsonParsers {
         @Override
         public ComputerComponent parseStringToComponent(String json) throws IOException {
             return objectMapper.readValue(json, Ram.class);
+        }
+    },
+
+    disk {
+        @Override
+        public ComputerComponent parseStringToComponent(String json) throws IOException {
+            return objectMapper.readValue(json, Disk.class);
         }
     };
 
