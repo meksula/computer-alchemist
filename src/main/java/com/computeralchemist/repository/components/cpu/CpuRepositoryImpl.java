@@ -28,10 +28,10 @@ public class CpuRepositoryImpl implements CpuRepository {
     }
 
     @Override
-    public Cpu save(Cpu computerComponent) {
+    public long save(Cpu computerComponent) {
         computerComponent.setProductId(nextId());
         mongoOperations.save(computerComponent, "cpu");
-        return computerComponent;
+        return computerComponent.getProductId();
     }
 
     @Override

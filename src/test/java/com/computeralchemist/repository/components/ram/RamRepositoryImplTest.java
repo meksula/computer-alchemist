@@ -19,8 +19,8 @@ import static org.mockito.Mockito.mock;
  * 06-04-2018
  * */
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = RootConfig.class)
+/*@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = RootConfig.class)*/
 public class RamRepositoryImplTest {
 
     //TODO napisać testy z embedded database, a nie z bazą produkcyjną...

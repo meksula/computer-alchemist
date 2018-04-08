@@ -14,7 +14,7 @@ public interface ComponentRepository<T> {
         return count() + 1;
     }
 
-    T save(T computerComponent);
+    long save(T computerComponent);
 
     T findByProductId(long productId);
 

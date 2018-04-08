@@ -28,10 +28,10 @@ public class DiskRepositoryImpl implements DiskRepository {
     }
 
     @Override
-    public Disk save(Disk computerComponent) {
+    public long save(Disk computerComponent) {
         computerComponent.setProductId(nextId());
         mongoOperations.save(computerComponent, "disk");
-        return computerComponent;
+        return computerComponent.getProductId();
     }
 
     @Override

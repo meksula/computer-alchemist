@@ -1,17 +1,11 @@
 package com.computeralchemist.controller.components;
 
 import com.computeralchemist.controller.RepositoryMapper;
-import com.computeralchemist.domain.components.JsonParsers;
-import com.computeralchemist.domain.components.motherboard.Motherboard;
-import com.computeralchemist.domain.components.motherboard.MotherboardParameters;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 
 /**
  * @Author
@@ -20,7 +14,7 @@ import java.util.LinkedHashMap;
  * */
 
 @RestController
-@RequestMapping("/new/components/{type}")
+@RequestMapping("/components/{type}")
 public class NewComponentsController {
     private RepositoryMapper repositoryMap;
 
@@ -37,6 +31,6 @@ public class NewComponentsController {
 
         repositoryMap.saveComponent(json, type);
 
-        return "Ścieżka do utworzonego komponentu...";
+        return repositoryMap.getPathToLastAddedComponent();
     }
 }

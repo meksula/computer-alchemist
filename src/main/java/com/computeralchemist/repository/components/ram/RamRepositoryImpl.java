@@ -28,10 +28,10 @@ public class RamRepositoryImpl implements RamRepository {
     }
 
     @Override
-    public Ram save(Ram computerComponent) {
+    public long save(Ram computerComponent) {
         computerComponent.setProductId(nextId());
         mongoOperations.save(computerComponent, "ram");
-        return computerComponent;
+        return computerComponent.getProductId();
     }
 
     @Override

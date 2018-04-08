@@ -20,6 +20,14 @@ import java.io.IOException;
 
 import static org.junit.Assert.*;
 
+/**
+ * @Author
+ * Karol Meksuła
+ * 05-04-2018
+ * */
+
+//TODO poprawić to razem z repozytoriami, ma być embedded DB, bo jebie bazę produkcyjną!!!!
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = RootConfig.class)
 public class RepositoryMapTest {

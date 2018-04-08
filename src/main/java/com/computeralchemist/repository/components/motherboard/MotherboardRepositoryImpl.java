@@ -28,10 +28,10 @@ public class MotherboardRepositoryImpl implements MotherboardRepository {
     }
 
     @Override
-    public Motherboard save(Motherboard computerComponent) {
+    public long save(Motherboard computerComponent) {
         computerComponent.setProductId(nextId());
         mongoOperations.save(computerComponent, "motherboard");
-        return computerComponent;
+        return computerComponent.getProductId();
     }
 
     @Override
