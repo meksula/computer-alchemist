@@ -24,7 +24,7 @@ public class RamTest {
         ram.setRamParameters(ramParameters);
 
         ram.setCompatibiltyIndex(2.3);
-        ram.setComponentType(ComponentType.RAM);
+        ram.setComponentType(ComponentType.ram);
     }
 
     @Test
@@ -41,6 +41,6 @@ public class RamTest {
 
     @Test
     public void componentTypeFromEnumTest() {
-        assertEquals(ComponentType.RAM, ram.getComponentType());
+        assertEquals(ComponentType.ram, ram.getComponentType());
     }
 }

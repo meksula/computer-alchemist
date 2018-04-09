@@ -1,9 +1,11 @@
 package com.computeralchemist.controller;
 
+import com.computeralchemist.controller.components.ComponentTypeExtracter;
 import com.computeralchemist.domain.components.ComputerComponent;
 import com.computeralchemist.domain.components.JsonParsers;
 import com.computeralchemist.domain.components.exceptions.RepositoryMapperException;
 import com.computeralchemist.repository.components.ComponentRepository;
+import com.computeralchemist.repository.components.compCase.ComputerCaseRepository;
 import com.computeralchemist.repository.components.cpu.CpuRepository;
 import com.computeralchemist.repository.components.disk.DiskRepository;
 import com.computeralchemist.repository.components.gpu.GraphicsCardRepository;
@@ -33,6 +35,7 @@ public class RepositoryMapper {
     private DiskRepository diskRepository;
     private PowerSupplyRepository powerSupplyRepository;
     private GraphicsCardRepository graphicsCardRepository;
+    private ComputerCaseRepository computerCaseRepository;
 
     @Autowired
     public void setMotherboardRepository(MotherboardRepository motherboardRepository,
@@ -40,13 +43,15 @@ public class RepositoryMapper {
                                          RamRepository ramRepository,
                                          DiskRepository diskRepository,
                                          PowerSupplyRepository powerSupplyRepository,
-                                         GraphicsCardRepository graphicsCardRepository) {
+                                         GraphicsCardRepository graphicsCardRepository,
+                                         ComputerCaseRepository computerCaseRepository) {
         this.motherboardRepository = motherboardRepository;
         this.cpuRepository = cpuRepository;
         this.ramRepository = ramRepository;
         this.diskRepository = diskRepository;
         this.powerSupplyRepository = powerSupplyRepository;
         this.graphicsCardRepository = graphicsCardRepository;
+        this.computerCaseRepository = computerCaseRepository;
 
         fillMap();
     }
@@ -58,6 +63,7 @@ public class RepositoryMapper {
         repositories.put("disk", diskRepository);
         repositories.put("supply", powerSupplyRepository);
         repositories.put("gpu", graphicsCardRepository);
+        repositories.put("computercase", computerCaseRepository);
     }
 
     public ComputerComponent findComponent(String component, long id) {
@@ -66,8 +72,10 @@ public class RepositoryMapper {
     }
 
     private String uri;
+    private ComponentTypeExtracter extracter = ComponentTypeExtracter.getInstance();
 
-    public void saveComponent(String json, String type) throws RepositoryMapperException {
+    public void saveComponent(String json) throws RepositoryMapperException {
+        String type = assignType(json);
         ComponentRepository componentRepository = repositories.get(type);
         long productId = 0;
         try {
@@ -77,7 +85,11 @@ public class RepositoryMapper {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        uri = "/components/" + type + "/" + productId;
+        uri = "/computer-alchemist/components/" + type + "/" + productId;
+    }
+
+    private String assignType(String json) {
+        return extracter.extractTypeFromJson(json);
     }
 
     public String getPathToLastAddedComponent() {

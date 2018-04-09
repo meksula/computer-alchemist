@@ -7,6 +7,5 @@ package com.computeralchemist.domain.components;
  * */
 
 public enum ComponentType {
-    MOTHERBOARD, CPU, GPU, RAM, DISK, PWR_SUPPLY, CASE, OTHERS;
-
+    motherboard, cpu, gpu, ram, disk, supply, computercase, others;
 }

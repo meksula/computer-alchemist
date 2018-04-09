@@ -1,5 +1,6 @@
 package com.computeralchemist.domain.components;
 
+import com.computeralchemist.domain.components.computerCase.ComputerCase;
 import com.computeralchemist.domain.components.cpu.Cpu;
 import com.computeralchemist.domain.components.disk.Disk;
 import com.computeralchemist.domain.components.gpu.GraphicsCard;
@@ -57,6 +58,13 @@ public enum JsonParsers {
         @Override
         public ComputerComponent parseStringToComponent(String json) throws IOException {
             return objectMapper.readValue(json, GraphicsCard.class);
+        }
+    },
+
+    computercase {
+        @Override
+        public ComputerComponent parseStringToComponent(String json) throws IOException {
+            return objectMapper.readValue(json, ComputerCase.class);
         }
     };
 

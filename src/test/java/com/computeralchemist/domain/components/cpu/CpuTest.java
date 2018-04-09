@@ -24,7 +24,7 @@ public class CpuTest {
         cpu.setCpuParameters(cpuParameters);
 
         cpu.setCompatibiltyIndex(2.3);
-        cpu.setComponentType(ComponentType.CPU);
+        cpu.setComponentType(ComponentType.cpu);
     }
 
     @Test
@@ -41,6 +41,6 @@ public class CpuTest {
 
     @Test
     public void componentTypeFromEnumTest() {
-        assertEquals(ComponentType.CPU, cpu.getComponentType());
+        assertEquals(ComponentType.cpu, cpu.getComponentType());
     }
 }
