@@ -1,4 +1,4 @@
-package com.computeralchemist.controller.components;
+package com.computeralchemist.controller.exception;
 
 /**
  * @Author

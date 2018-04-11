@@ -1,6 +1,7 @@
 package com.computeralchemist.controller.components;
 
 import com.computeralchemist.domain.components.ComponentType;
+import com.computeralchemist.domain.components.ComponentTypeExtracter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;

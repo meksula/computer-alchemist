@@ -19,3 +19,29 @@ API based on three main modules:
 * Public resources (free access)
 
     URL: /pub
+
+
+To add component, post JSON to URI:
+    URI: /components
+
+    That's enough. App will match appropriate repository and save component in correct collection.
+    If the process succeeds, you'll get the full address where the resource is located.
+    For example:
+    https://api.computeralchemist.com/components/motherboard/4391
+
+You can search for computer's components:
+
+    URI: /components/{component}/{productId}
+
+    Example:
+        /components/motherboard/319
+
+    After this request You will get JSON with component's data.
+
+    {component} available:
+        [cpu, motherboard, ram, disk, gpu, supply, computercase];
+
+    Type 'docs' after component part to check how many elements exist in database,
+    for example:
+
+    URI: /components/motherboard/docs

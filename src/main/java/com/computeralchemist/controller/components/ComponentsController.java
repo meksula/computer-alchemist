@@ -1,11 +1,10 @@
 package com.computeralchemist.controller.components;
 
-import com.computeralchemist.controller.RepositoryMapper;
+import com.computeralchemist.domain.components.RepositoryMapper;
 import com.computeralchemist.domain.components.ComputerComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/components/{component}/{id}")

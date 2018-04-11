@@ -1,6 +1,6 @@
-package com.computeralchemist.controller.components;
+package com.computeralchemist.domain.components;
 
-import com.computeralchemist.domain.components.ComponentType;
+import com.computeralchemist.controller.exception.NoSuchComponentException;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,6 +32,10 @@ public class ComponentTypeExtracter {
             return result;
 
         throw new NoSuchComponentException(result);
+    }
+
+    public String extractComputerTypeFromJson(String json) {
+        return finalExtracting(json);
     }
 
     private String extractingType(String json) {

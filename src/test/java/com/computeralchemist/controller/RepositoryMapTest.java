@@ -1,14 +1,10 @@
 package com.computeralchemist.controller;
 
 import com.computeralchemist.config.RootConfig;
+import com.computeralchemist.domain.components.RepositoryMapper;
 import com.computeralchemist.domain.components.cpu.Cpu;
 import com.computeralchemist.domain.components.exceptions.RepositoryMapperException;
-import com.computeralchemist.domain.components.motherboard.Motherboard;
-import com.computeralchemist.domain.components.ram.Ram;
-import com.computeralchemist.repository.components.ComponentRepository;
 import com.computeralchemist.repository.components.cpu.CpuRepository;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.After;
 import org.junit.Ignore;
 import org.junit.Test;

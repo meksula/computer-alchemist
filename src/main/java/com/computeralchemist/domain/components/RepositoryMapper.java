@@ -1,8 +1,5 @@
-package com.computeralchemist.controller;
+package com.computeralchemist.domain.components;
 
-import com.computeralchemist.controller.components.ComponentTypeExtracter;
-import com.computeralchemist.domain.components.ComputerComponent;
-import com.computeralchemist.domain.components.JsonParsers;
 import com.computeralchemist.domain.components.exceptions.RepositoryMapperException;
 import com.computeralchemist.repository.components.ComponentRepository;
 import com.computeralchemist.repository.components.compCase.ComputerCaseRepository;

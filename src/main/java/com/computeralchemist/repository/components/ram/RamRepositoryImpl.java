@@ -47,4 +47,5 @@ public class RamRepositoryImpl implements RamRepository {
         query.addCriteria(Criteria.where("productId").is(productId));
         mongoOperations.remove(query, Ram.class, "ram");
     }
+
 }
