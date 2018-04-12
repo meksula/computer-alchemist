@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private UserRepository userRepository;
 
-    @Autowired
+ /*   @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -26,5 +26,5 @@ public class UserController {
     @GetMapping(value = "/{username}", produces = "application/json;charset=UTF-8")
     public User getUser(@PathVariable("username")String username) {
         return userRepository.findByUsername(username);
-    }
+    }*/
 }

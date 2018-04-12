@@ -22,7 +22,7 @@ import java.net.URI;
 public class AccountController {
     private UserRepository userRepository;
 
-    @Autowired
+    /*@Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -37,5 +37,5 @@ public class AccountController {
         headers.setLocation(locationUri);
 
         return new ResponseEntity<>(user, headers, HttpStatus.CREATED);
-    }
+    }*/
 }

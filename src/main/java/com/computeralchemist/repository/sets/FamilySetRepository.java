@@ -17,7 +17,10 @@ public interface FamilySetRepository extends MongoRepository<FamilyComputerSet, 
 
     FamilyComputerSet findById(long id);
 
-    FamilyComputerSet findByAuthor(String author);
+    @Override
+    <S extends FamilyComputerSet> S save(S entity);
+
+    List<FamilyComputerSet> findByAuthor(String author);
 
     //todo querry (ma pobierać 20 najpopularniejszych)
     List<FamilyComputerSet> findByVotes(long votesAmount);

@@ -10,24 +10,33 @@ public enum ComputerSetTypes {
 
     work {
         @Override
-        public ComputerSet createSet() {
-            return new WorkComputerSet();
+        public ComputerSet createSet(long id) {
+            WorkComputerSet computerSet = new WorkComputerSet();
+            computerSet.setType(this);
+            computerSet.setId(id);
+            return computerSet;
         }
     },
 
     family {
         @Override
-        ComputerSet createSet() {
-            return new FamilyComputerSet();
+        ComputerSet createSet(long id) {
+            FamilyComputerSet computerSet = new FamilyComputerSet();
+            computerSet.setType(this);
+            computerSet.setId(id);
+            return computerSet;
         }
     },
 
     gaming {
         @Override
-        ComputerSet createSet() {
-            return new GamingComputerSet();
+        ComputerSet createSet(long id) {
+            GamingComputerSet computerSet = new GamingComputerSet();
+            computerSet.setType(this);
+            computerSet.setId(id);
+            return computerSet;
         }
     };
 
-    abstract ComputerSet createSet();
+    abstract ComputerSet createSet(long id);
 }

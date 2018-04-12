@@ -22,4 +22,5 @@ public class FamilyComputerSet extends ComputerSet {
     public void setId(long id) {
         this.id = id;
     }
+
 }

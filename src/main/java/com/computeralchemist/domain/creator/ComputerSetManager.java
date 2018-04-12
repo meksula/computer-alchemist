@@ -1,7 +1,5 @@
 package com.computeralchemist.domain.creator;
 
-import com.computeralchemist.domain.components.ComputerComponent;
-
 import java.util.List;
 
 /**
@@ -15,15 +13,9 @@ public interface ComputerSetManager {
 
     ComputerSet updateSet(ComputerSet computerSet);
 
-    ComputerSet findComputerSetById(long setId);
+    ComputerSet findComputerSetById(String type, long setId);
 
-    boolean isSetCompatible();
+    long assignId();
 
-    boolean isFinished();
-
-    boolean isPublic();
-
-    List<ComputerComponent> getContent();
-
-    void setAuthor(String author);
+    List<ComputerSet> getListOfCompSet(String type, int amount);
 }
