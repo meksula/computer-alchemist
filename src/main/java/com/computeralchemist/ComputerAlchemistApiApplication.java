@@ -10,5 +10,4 @@ public class ComputerAlchemistApiApplication {
 		SpringApplication.run(ComputerAlchemistApiApplication.class, args);
 	}
 
-
 }

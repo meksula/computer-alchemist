@@ -11,7 +11,7 @@ public abstract class ComputerComponent {
     private String model;
     private String description;
     private String urlToResource;
-    private double compatibiltyIndex;
+    private double compatibleIndex;
     private ComponentType componentType;
 
     public String getModel() {
@@ -38,14 +38,6 @@ public abstract class ComputerComponent {
         this.description = description;
     }
 
-    public double getCompatibiltyIndex() {
-        return compatibiltyIndex;
-    }
-
-    public void setCompatibiltyIndex(double compatibiltyIndex) {
-        this.compatibiltyIndex = compatibiltyIndex;
-    }
-
     public ComponentType getComponentType() {
         return componentType;
     }
@@ -60,5 +52,13 @@ public abstract class ComputerComponent {
 
     public void setUrlToResource(String urlToResource) {
         this.urlToResource = urlToResource;
+    }
+
+    public double getCompatibleIndex() {
+        return compatibleIndex;
+    }
+
+    public void setCompatibleIndex(double compatibleIndex) {
+        this.compatibleIndex = compatibleIndex;
     }
 }

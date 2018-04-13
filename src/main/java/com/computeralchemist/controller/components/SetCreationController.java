@@ -1,6 +1,6 @@
 package com.computeralchemist.controller.components;
 
-import com.computeralchemist.domain.creator.ComputerSet;
+import com.computeralchemist.domain.creator.setTypes.ComputerSet;
 import com.computeralchemist.domain.creator.ComputerSetManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,7 +40,7 @@ public class SetCreationController {
         return computerSetManager.findComputerSetById(type, id);
     }
 
-    @GetMapping(value = "{type}/{number}")
+    @GetMapping(value = "/list/{type}/{number}")
     @ResponseStatus(HttpStatus.OK)
     public List<ComputerSet> getCompSetList(@PathVariable("type")String type,
                                             @PathVariable("number")int number) {

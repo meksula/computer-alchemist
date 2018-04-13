@@ -1,6 +1,6 @@
 package com.computeralchemist.domain.creator;
 
-import java.util.List;
+import com.computeralchemist.domain.creator.setTypes.ComputerSet;
 
 /**
  * @Author
@@ -11,11 +11,15 @@ import java.util.List;
 public interface ComputerSetManager {
     ComputerSet initSet(String user, String type);
 
-    ComputerSet updateSet(ComputerSet computerSet);
+    ComputerSet updateSet();
 
-    ComputerSet findComputerSetById(String type, long setId);
+    //ComputerSet findComputerSetById(String type, long setId);
 
     long assignId();
 
-    List<ComputerSet> getListOfCompSet(String type, int amount);
+    //List<ComputerSet> getListOfCompSet(String type, int amount);
+
+    ComputerSet assembleComponent(String type, long productId) throws NothingHasChangedException;
+
+    ComputerSet pullComputerSet(String compSetType, long id);
 }

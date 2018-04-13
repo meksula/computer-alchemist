@@ -9,16 +9,15 @@ import java.util.List;
  * */
 
 public class MotherboardParameters {
+    private String type;
     private String chipset;
     private String socket;
     private int ramSockets;
     private String bios;
+    private String memoryType;
+    private double memoryFrequency;
     private List<String> procesorAvailables;
     private List<String> otherSockets;
-
-    public String info() {
-        return "chipset: " + chipset + ", socket: " + socket + ", " + bios;
-    }
 
     public String getChipset() {
         return chipset;
@@ -69,4 +68,27 @@ public class MotherboardParameters {
     }
 
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public double getMemoryFrequency() {
+        return memoryFrequency;
+    }
+
+    public void setMemoryFrequency(double memoryFrequency) {
+        this.memoryFrequency = memoryFrequency;
+    }
+
+    public String getMemoryType() {
+        return memoryType;
+    }
+
+    public void setMemoryType(String memoryType) {
+        this.memoryType = memoryType;
+    }
 }

@@ -1,6 +1,6 @@
 package com.computeralchemist.repository.sets;
 
-import com.computeralchemist.domain.creator.WorkComputerSet;
+import com.computeralchemist.domain.creator.setTypes.WorkComputerSet;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**

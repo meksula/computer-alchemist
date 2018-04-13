@@ -1,6 +1,6 @@
 package com.computeralchemist.repository.sets;
 
-import com.computeralchemist.domain.creator.FamilyComputerSet;
+import com.computeralchemist.domain.creator.setTypes.FamilyComputerSet;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
