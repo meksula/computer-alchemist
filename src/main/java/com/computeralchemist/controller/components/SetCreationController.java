@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 /**
  * @Author
  * Karol Meksuła
@@ -32,19 +30,19 @@ public class SetCreationController {
         return computerSetManager.initSet(user, type);
     }
 
-    @GetMapping(value = "/{type}/{id}")
+    /*@GetMapping(value = "/{type}/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ComputerSet getCompSet(@PathVariable("type")String type,
                                   @PathVariable("id")long id) {
 
         return computerSetManager.findComputerSetById(type, id);
-    }
+    }*/
 
-    @GetMapping(value = "/list/{type}/{number}")
+    /*@GetMapping(value = "/list/{type}/{number}")
     @ResponseStatus(HttpStatus.OK)
     public List<ComputerSet> getCompSetList(@PathVariable("type")String type,
                                             @PathVariable("number")int number) {
 
         return computerSetManager.getListOfCompSet(type, number);
-    }
+    }*/
 }

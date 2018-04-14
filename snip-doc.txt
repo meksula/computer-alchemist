@@ -1,5 +1,9 @@
 A snippet of Computer Alchemist API documentation.
 
+To test application you can use 'mongo-comp-alch.sh'.
+Bash script fills the test database with fiew documents (json mongo).
+
+
 Description: Main path
 URL: /
 

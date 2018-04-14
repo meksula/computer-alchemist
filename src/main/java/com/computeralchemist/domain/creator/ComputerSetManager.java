@@ -13,11 +13,7 @@ public interface ComputerSetManager {
 
     ComputerSet updateSet();
 
-    //ComputerSet findComputerSetById(String type, long setId);
-
     long assignId();
-
-    //List<ComputerSet> getListOfCompSet(String type, int amount);
 
     ComputerSet assembleComponent(String type, long productId) throws NothingHasChangedException;
 

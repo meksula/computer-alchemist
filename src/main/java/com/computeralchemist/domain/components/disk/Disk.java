@@ -1,6 +1,8 @@
 package com.computeralchemist.domain.components.disk;
 
 import com.computeralchemist.domain.components.ComputerComponent;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,6 +12,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * 07-04-2018
  * */
 
+@Getter
+@Setter
 @Document(collection = "disk")
 public class Disk extends ComputerComponent {
 
@@ -18,19 +22,4 @@ public class Disk extends ComputerComponent {
 
     private DiskParameters diskParameters;
 
-    public void setDiskParameters(DiskParameters diskParameters) {
-        this.diskParameters = diskParameters;
-    }
-
-    public DiskParameters getDiskParameters() {
-        return diskParameters;
-    }
-
-    public long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(long productId) {
-        this.productId = productId;
-    }
 }

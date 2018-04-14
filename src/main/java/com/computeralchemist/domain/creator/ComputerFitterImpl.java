@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ComputerFitterImpl implements ComputerFitter {
+    /*todo tutaj tylko dobudowujemy komponent do całości zestawu.*/
 
     @Override
     public void assembleComputerSet(ComputerComponent computerComponent) {

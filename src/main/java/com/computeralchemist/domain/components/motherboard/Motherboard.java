@@ -1,6 +1,8 @@
 package com.computeralchemist.domain.components.motherboard;
 
 import com.computeralchemist.domain.components.ComputerComponent;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,6 +12,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * 30-03-2018
  * */
 
+@Getter
+@Setter
 @Document(collection = "motherboards")
 public class Motherboard extends ComputerComponent {
 
@@ -18,19 +22,4 @@ public class Motherboard extends ComputerComponent {
 
     private MotherboardParameters motherboardParameters;
 
-    public long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(long productId) {
-        this.productId = productId;
-    }
-
-    public MotherboardParameters getMotherboardParameters() {
-        return motherboardParameters;
-    }
-
-    public void setMotherboardParameters(MotherboardParameters motherboardParameters) {
-        this.motherboardParameters = motherboardParameters;
-    }
 }

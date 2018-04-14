@@ -1,6 +1,8 @@
 package com.computeralchemist.domain.components.gpu;
 
 import com.computeralchemist.domain.components.ComputerComponent;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,6 +12,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * 08-04-2018
  * */
 
+@Getter
+@Setter
 @Document(collection = "gpu")
 public class GraphicsCard extends ComputerComponent {
 
@@ -18,19 +22,4 @@ public class GraphicsCard extends ComputerComponent {
 
     private GraphicsCardParameters graphicsCardParameters;
 
-    public long getProducentId() {
-        return producentId;
-    }
-
-    public void setProducentId(long producentId) {
-        this.producentId = producentId;
-    }
-
-    public GraphicsCardParameters getGraphicsCardParameters() {
-        return graphicsCardParameters;
-    }
-
-    public void setGraphicsCardParameters(GraphicsCardParameters graphicsCardParameters) {
-        this.graphicsCardParameters = graphicsCardParameters;
-    }
 }

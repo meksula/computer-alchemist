@@ -1,6 +1,8 @@
 package com.computeralchemist.domain.components.supply;
 
 import com.computeralchemist.domain.components.ComputerComponent;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,6 +12,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * 07-08-2018
  * */
 
+@Getter
+@Setter
 @Document(collection = "supply")
 public class PowerSupply extends ComputerComponent {
 
@@ -18,19 +22,4 @@ public class PowerSupply extends ComputerComponent {
 
     private PowerSupplyParameters powerSupplyParameters;
 
-    public long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(long productId) {
-        this.productId = productId;
-    }
-
-    public PowerSupplyParameters getPowerSupplyParameters() {
-        return powerSupplyParameters;
-    }
-
-    public void setPowerSupplyParameters(PowerSupplyParameters powerSupplyParameters) {
-        this.powerSupplyParameters = powerSupplyParameters;
-    }
 }

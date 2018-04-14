@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CompatibilityManagerImpl implements CompatibilityManager {
-
+    //todo wzorzec strategia
     @Override
     public boolean checkComponentsCompatibility(ComputerSet computerSet, ComputerComponent computerComponent) {
         return false;

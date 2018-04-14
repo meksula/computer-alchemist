@@ -1,6 +1,8 @@
 package com.computeralchemist.domain.components.ram;
 
 import com.computeralchemist.domain.components.ComputerComponent;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,6 +12,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * 05-04-2018
  * */
 
+@Getter
+@Setter
 @Document(collection = "ram")
 public class Ram extends ComputerComponent {
 
@@ -18,19 +22,4 @@ public class Ram extends ComputerComponent {
 
     private RamParameters ramParameters;
 
-    public long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(long productId) {
-        this.productId = productId;
-    }
-
-    public RamParameters getRamParameters() {
-        return ramParameters;
-    }
-
-    public void setRamParameters(RamParameters ramParameters) {
-        this.ramParameters = ramParameters;
-    }
 }
