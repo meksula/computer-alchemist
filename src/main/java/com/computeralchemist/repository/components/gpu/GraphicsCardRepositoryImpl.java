@@ -7,6 +7,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @Author
  * Karol Meksuła
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class GraphicsCardRepositoryImpl implements GraphicsCardRepository {
     private MongoOperations mongoOperations;
+    private final String TYPE = "gpu";
 
     @Autowired
     public void setMongoOperations(MongoOperations mongoOperations) {
@@ -24,27 +27,44 @@ public class GraphicsCardRepositoryImpl implements GraphicsCardRepository {
 
     @Override
     public long count() {
-        return mongoOperations.count(new Query(), GraphicsCard.class, "gpu");
+        return mongoOperations.count(new Query(), GraphicsCard.class, TYPE);
     }
 
     @Override
     public long save(GraphicsCard computerComponent) {
-        computerComponent.setProducentId(nextId());
-        mongoOperations.save(computerComponent ,"gpu");
-        return computerComponent.getProducentId();
+        computerComponent.setProductId(nextId());
+        mongoOperations.save(computerComponent ,TYPE);
+        return computerComponent.getProductId();
+    }
+
+    @Override
+    public void update(GraphicsCard computerComponent) {
+
     }
 
     @Override
     public GraphicsCard findByProductId(long productId) {
         Query query = new Query();
         query.addCriteria(Criteria.where("productId").is(productId));
-        return mongoOperations.findOne(query, GraphicsCard.class, "gpu");
+        return mongoOperations.findOne(query, GraphicsCard.class, TYPE);
+    }
+
+    @Override
+    public GraphicsCard findByModel(String model) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("model").is(model));
+        return mongoOperations.findOne(query, GraphicsCard.class, TYPE);
+    }
+
+    @Override
+    public List<GraphicsCard> findAllComponents() {
+        return mongoOperations.findAll(GraphicsCard.class, TYPE);
     }
 
     @Override
     public void deleteByProductId(long productId) {
         Query query = new Query();
         query.addCriteria(Criteria.where("productId").is(productId));
-        mongoOperations.remove(query, GraphicsCard.class, "gpu");
+        mongoOperations.remove(query, GraphicsCard.class, TYPE);
     }
 }

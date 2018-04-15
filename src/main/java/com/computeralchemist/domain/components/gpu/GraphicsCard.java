@@ -18,7 +18,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class GraphicsCard extends ComputerComponent {
 
     @Id
-    private long producentId;
+    private long productId;
 
     private GraphicsCardParameters graphicsCardParameters;
 

@@ -28,5 +28,6 @@ public abstract class ComputerComponent {
     private String description;
     private String urlToResource;
     private double compatibleIndex;
+    private long votes;
 
 }

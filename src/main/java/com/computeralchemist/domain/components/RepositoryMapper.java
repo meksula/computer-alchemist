@@ -68,21 +68,18 @@ public class RepositoryMapper {
         return (ComputerComponent) componentRepository.findByProductId(id);
     }
 
-    private String uri;
     private ComponentTypeExtracter extracter = ComponentTypeExtracter.getInstance();
 
     public void saveComponent(String json) throws RepositoryMapperException {
         String type = assignType(json);
         ComponentRepository componentRepository = repositories.get(type);
-        long productId = 0;
         try {
-            productId = componentRepository.save(JsonParsers.valueOf(type).parseStringToComponent(json));
+            componentRepository.save(JsonParsers.valueOf(type).parseStringToComponent(json));
         } catch (IllegalArgumentException e) {
             throw new RepositoryMapperException(type);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        uri = "/computer-alchemist/components/" + type + "/" + productId;
     }
 
     private String assignType(String json) {
@@ -90,7 +87,7 @@ public class RepositoryMapper {
     }
 
     public String getPathToLastAddedComponent() {
-        return "http://localhost:8080" + uri;
+        return "http://localhost:8080";
     }
 
 }

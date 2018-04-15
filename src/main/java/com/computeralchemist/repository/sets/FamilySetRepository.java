@@ -2,6 +2,7 @@ package com.computeralchemist.repository.sets;
 
 import com.computeralchemist.domain.creator.setTypes.FamilyComputerSet;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
 
@@ -22,6 +23,6 @@ public interface FamilySetRepository extends MongoRepository<FamilyComputerSet, 
 
     List<FamilyComputerSet> findByAuthor(String author);
 
-    //todo querry (ma pobierać 20 najpopularniejszych)
+    //@Query("{'familyset'}")
     List<FamilyComputerSet> findByVotes(long votesAmount);
 }
