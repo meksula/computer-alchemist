@@ -25,7 +25,6 @@ import java.util.Map;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public abstract class ComputerSet {
     private ComputerSetTypes type;
-    private Map<ComponentType, Long> componentList;
     private String author;
     private String createDate;
     private long votes;

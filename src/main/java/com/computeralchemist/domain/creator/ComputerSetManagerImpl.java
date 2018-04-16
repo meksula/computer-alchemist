@@ -1,8 +1,11 @@
 package com.computeralchemist.domain.creator;
 
+import com.computeralchemist.domain.components.ComponentType;
 import com.computeralchemist.domain.components.ComponentTypeExtracter;
 import com.computeralchemist.domain.components.ComputerComponent;
 import com.computeralchemist.domain.components.RepositoryMapper;
+import com.computeralchemist.domain.creator.compatibility.CompatibilityChecker;
+import com.computeralchemist.domain.creator.fitter.ComputerFitter;
 import com.computeralchemist.domain.creator.setTypes.ComputerSet;
 import com.computeralchemist.domain.creator.setTypes.ComputerSetTypes;
 import com.computeralchemist.repository.sets.FamilySetRepository;
@@ -30,7 +33,6 @@ public class ComputerSetManagerImpl implements ComputerSetManager {
     private FamilySetRepository familySetRepository;
     private GamingSetRepository gamingSetRepository;
     private Map<ComputerSetTypes, MongoRepository> repositoryTypeMap;
-    private CompatibilityManager compatibilityManager;
     private ComputerFitter computerFitter;
     private String type;
     private ComputerSet computerSet;
@@ -40,13 +42,11 @@ public class ComputerSetManagerImpl implements ComputerSetManager {
     public void setWorkSetRepository(WorkSetRepository workSetRepository,
                                      FamilySetRepository familySetRepository,
                                      GamingSetRepository gamingSetRepository,
-                                     CompatibilityManager compatibilityManager,
                                      ComputerFitter computerFitter,
                                      RepositoryMapper repositoryMapper) {
         this.workSetRepository = workSetRepository;
         this.familySetRepository = familySetRepository;
         this.gamingSetRepository = gamingSetRepository;
-        this.compatibilityManager = compatibilityManager;
         this.computerFitter = computerFitter;
         this.repositoryMapper = repositoryMapper;
         initMap();
@@ -85,7 +85,10 @@ public class ComputerSetManagerImpl implements ComputerSetManager {
     @Override
     public ComputerSet assembleComponent(String type, long productId) throws NothingHasChangedException {
         ComputerComponent component = repositoryMapper.findComponent(type, productId);
-        boolean compatible = compatibilityManager.checkComponentsCompatibility(computerSet, component);
+        CompatibilityChecker checker = CompatibilityChecker
+                .build(ComponentType.valueOf(type));
+
+        boolean compatible = checker.compatibilityCheck(computerSet, component);
 
         if (compatible)
             buildSet(component);
@@ -103,7 +106,7 @@ public class ComputerSetManagerImpl implements ComputerSetManager {
     }
 
     private void buildSet(ComputerComponent computerComponent) {
-        computerFitter.assembleComputerSet(computerComponent);
+        this.computerSet = computerFitter.assembleComputerSet(this.computerSet, computerComponent);
     }
 
 }

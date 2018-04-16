@@ -23,8 +23,7 @@ public class NewComponentsController {
 
     @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
     @ResponseStatus(HttpStatus.CREATED)
-    public String addNewComponent(@RequestBody String json) {
+    public void addNewComponent(@RequestBody String json) {
         repositoryMap.saveComponent(json);
-        return repositoryMap.getPathToLastAddedComponent();
     }
 }

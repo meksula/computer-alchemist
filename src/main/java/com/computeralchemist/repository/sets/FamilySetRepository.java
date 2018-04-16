@@ -23,6 +23,6 @@ public interface FamilySetRepository extends MongoRepository<FamilyComputerSet, 
 
     List<FamilyComputerSet> findByAuthor(String author);
 
-    //@Query("{'familyset'}")
-    List<FamilyComputerSet> findByVotes(long votesAmount);
+    @Override
+    List<FamilyComputerSet> findAll();
 }

@@ -35,7 +35,7 @@ public class RepositoryMapper {
     private ComputerCaseRepository computerCaseRepository;
 
     @Autowired
-    public void setMotherboardRepository(MotherboardRepository motherboardRepository,
+    public void setRepositories(MotherboardRepository motherboardRepository,
                                          CpuRepository cpuRepository,
                                          RamRepository ramRepository,
                                          DiskRepository diskRepository,
@@ -84,10 +84,6 @@ public class RepositoryMapper {
 
     private String assignType(String json) {
         return extracter.extractTypeFromJson(json);
-    }
-
-    public String getPathToLastAddedComponent() {
-        return "http://localhost:8080";
     }
 
 }
