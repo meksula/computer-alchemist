@@ -1,6 +1,7 @@
 package com.computeralchemist.domain.creator;
 
 import com.computeralchemist.domain.creator.setTypes.ComputerSet;
+import com.computeralchemist.domain.creator.setTypes.ComputerSetTypes;
 
 /**
  * @Author
@@ -11,11 +12,13 @@ import com.computeralchemist.domain.creator.setTypes.ComputerSet;
 public interface ComputerSetManager {
     ComputerSet initSet(String user, String type);
 
+    ComputerSet initSet(String user, ComputerSetTypes types);
+
     ComputerSet updateSet();
 
-    long assignId();
+    void prepareComponentToAssembling(String type, long productId);
 
-    ComputerSet assembleComponent(String type, long productId) throws NothingHasChangedException;
+    ComputerSet assembleComponent() throws NothingHasChangedException;
 
-    ComputerSet pullComputerSet(String compSetType, long id);
+    ComputerSet loadExistComputerSet(String compSetType, long id);
 }

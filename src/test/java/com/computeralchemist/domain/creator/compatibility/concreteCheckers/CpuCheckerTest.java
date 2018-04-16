@@ -1,11 +1,16 @@
 package com.computeralchemist.domain.creator.compatibility.concreteCheckers;
 
+import com.computeralchemist.domain.components.cpu.Cpu;
 import com.computeralchemist.domain.components.motherboard.Motherboard;
 import com.computeralchemist.domain.creator.setTypes.GamingComputerSet;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.springframework.security.core.parameters.P;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.booleanThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockingDetails;
 
 /**
  * @Author
@@ -16,15 +21,25 @@ import static org.junit.Assert.*;
 public class CpuCheckerTest {
     private CpuChecker cpuChecker = new CpuChecker();
 
-    @Mock
-    private GamingComputerSet set;
+    private GamingComputerSet set = new GamingComputerSet();
+    private Motherboard motherboard = new Motherboard();
 
-    @Mock
-    private Motherboard motherboard;
+    private Cpu cpu = new Cpu();
 
     @Test
     public void setCpuCheckerReturnAlwaysTrue() {
-        boolean decision = cpuChecker.compatibilityCheck(set, motherboard);
+        boolean decision = cpuChecker.compatibilityCheck(set, cpu);
         assertTrue(decision);
     }
+
+    @Test
+    public void checkerShouldNotAllowToAssemble() {
+        set.setMotherboard(motherboard);
+
+        assertNotNull(motherboard);
+
+        boolean flag = cpuChecker.compatibilityCheck(set, cpu);
+        assertFalse(flag);
+    }
+
 }

@@ -3,22 +3,15 @@ package com.computeralchemist.domain.creator;
 import com.computeralchemist.domain.components.ComponentType;
 import com.computeralchemist.domain.components.ComponentTypeExtracter;
 import com.computeralchemist.domain.components.ComputerComponent;
-import com.computeralchemist.domain.components.RepositoryMapper;
+import com.computeralchemist.repository.RepositoryProvider;
 import com.computeralchemist.domain.creator.compatibility.CompatibilityChecker;
 import com.computeralchemist.domain.creator.fitter.ComputerFitter;
 import com.computeralchemist.domain.creator.setTypes.ComputerSet;
 import com.computeralchemist.domain.creator.setTypes.ComputerSetTypes;
-import com.computeralchemist.repository.sets.FamilySetRepository;
-import com.computeralchemist.repository.sets.GamingSetRepository;
-import com.computeralchemist.repository.sets.WorkSetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Optional;
 
 /**
  * @Author
@@ -29,84 +22,86 @@ import java.util.Optional;
 @Service
 public class ComputerSetManagerImpl implements ComputerSetManager {
     private ComponentTypeExtracter extracter = ComponentTypeExtracter.getInstance();
-    private WorkSetRepository workSetRepository;
-    private FamilySetRepository familySetRepository;
-    private GamingSetRepository gamingSetRepository;
-    private Map<ComputerSetTypes, MongoRepository> repositoryTypeMap;
     private ComputerFitter computerFitter;
-    private String type;
+    private RepositoryProvider repositoryProvider;
+
     private ComputerSet computerSet;
-    private RepositoryMapper repositoryMapper;
+    private ComputerSetTypes type;
 
     @Autowired
-    public void setWorkSetRepository(WorkSetRepository workSetRepository,
-                                     FamilySetRepository familySetRepository,
-                                     GamingSetRepository gamingSetRepository,
-                                     ComputerFitter computerFitter,
-                                     RepositoryMapper repositoryMapper) {
-        this.workSetRepository = workSetRepository;
-        this.familySetRepository = familySetRepository;
-        this.gamingSetRepository = gamingSetRepository;
+    public void setWorkSetRepository(ComputerFitter computerFitter,
+                                     RepositoryProvider repositoryProvider) {
         this.computerFitter = computerFitter;
-        this.repositoryMapper = repositoryMapper;
-        initMap();
-    }
-
-    private void initMap() {
-        repositoryTypeMap = new LinkedHashMap<>();
-        repositoryTypeMap.put(ComputerSetTypes.work, workSetRepository);
-        repositoryTypeMap.put(ComputerSetTypes.family, familySetRepository);
-        repositoryTypeMap.put(ComputerSetTypes.gaming, gamingSetRepository);
+        this.repositoryProvider = repositoryProvider;
     }
 
     @Override
     public ComputerSet initSet(String user, String jsonType) {
-        this.type = extracter.extractComputerTypeFromJson(jsonType);
-        ComputerSet computerSet = ComputerSetTypes.valueOf(type).createSet(assignId());
+        assignType(jsonType);
+        ComputerSet computerSet = type.createSet(assignSetId());
         computerSet.setAuthor(user);
         computerSet.setCreateDate(String.valueOf(LocalDate.now()));
         this.computerSet = computerSet;
-        updateSet();
         return computerSet;
+    }
+
+    @Override
+    public ComputerSet initSet(String user, ComputerSetTypes types) {
+        this.type = types;
+        ComputerSet computerSet = types.createSet(assignSetId());
+        computerSet.setAuthor(user);
+        computerSet.setCreateDate(String.valueOf(LocalDate.now()));
+        this.computerSet = computerSet;
+        return computerSet;
+    }
+
+    private void assignType(String jsonType) {
+        this.type = ComputerSetTypes.valueOf(extracter.extractComputerTypeFromJson(jsonType));
+    }
+
+    private long assignSetId() {
+        return repositoryProvider.assignSetId(type.toString());
     }
 
     @Override
     public ComputerSet updateSet() {
-        MongoRepository repository = repositoryTypeMap.get(computerSet.getType());
-        repository.save(computerSet);
+        repositoryProvider.saveSet(computerSet);
+        return computerSet;
+    }
+
+    private ComputerComponent computerComponent;
+
+    @Override
+    public void prepareComponentToAssembling(String type, long productId) {
+        this.computerComponent = repositoryProvider.findComponent(type, productId);
+    }
+
+    @Override
+    public ComputerSet assembleComponent() throws NothingHasChangedException {
+        CompatibilityChecker checker = CompatibilityChecker
+                .build(computerComponent.getComponentType());
+
+        boolean compatible = checker.compatibilityCheck(computerSet, computerComponent);
+
+        if (compatible)
+            buildSet();
+
+        else throw new NothingHasChangedException();
+
         return computerSet;
     }
 
     @Override
-    public long assignId() {
-        return repositoryTypeMap.get(ComputerSetTypes.valueOf(type)).count() + 1;
+    public ComputerSet loadExistComputerSet(String compSetType, long id) {
+        this.computerSet = repositoryProvider.findSet(compSetType, id);
+        System.out.println("Załadowuję zestaw do konfiguracji.");
+        return computerSet;
     }
 
-    @Override
-    public ComputerSet assembleComponent(String type, long productId) throws NothingHasChangedException {
-        ComputerComponent component = repositoryMapper.findComponent(type, productId);
-        CompatibilityChecker checker = CompatibilityChecker
-                .build(ComponentType.valueOf(type));
-
-        boolean compatible = checker.compatibilityCheck(computerSet, component);
-
-        if (compatible)
-            buildSet(component);
-
-        else throw new NothingHasChangedException();
-
-        return updateSet();
-    }
-
-    @Override
-    public ComputerSet pullComputerSet(String compSetType, long id) {
-        MongoRepository mongoRepository = repositoryTypeMap.get(ComputerSetTypes.valueOf(type));
-        Optional<ComputerSet> computerSet = mongoRepository.findById(id);
-        return computerSet.get();
-    }
-
-    private void buildSet(ComputerComponent computerComponent) {
-        this.computerSet = computerFitter.assembleComputerSet(this.computerSet, computerComponent);
+    private void buildSet() {
+        /*System.out.println(computerSet.getAuthor() + " " + computerSet.getCreateDate());
+        System.out.println(computerComponent.getModel());*/
+        this.computerSet = computerFitter.assembleComputerSet(this.computerSet, this.computerComponent);
     }
 
 }

@@ -19,10 +19,10 @@ public class GraphicsCardParameters {
     private String chipset;
     private int memory;
     private String memoryType;
+    private double memoryFrequency;
     private String mainConnectorType;
     private double length;
     private double clockFrequency;
-    private double memoryFrequency;
     private String resolution;
     private String cooler;
     private List<String> standards;

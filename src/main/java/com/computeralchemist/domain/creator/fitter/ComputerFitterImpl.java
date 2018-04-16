@@ -24,11 +24,11 @@ import java.util.Map;
 
 @Service
 public class ComputerFitterImpl implements ComputerFitter {
-    private final Map<ComponentType, Runnable> assemblingMethods;
+    private Map<ComponentType, Runnable> assemblingMethods;
     private ComputerSet computerSet;
     private ComputerComponent computerComponent;
 
-    public ComputerFitterImpl() {
+    public void initMap() {
         this.assemblingMethods = new LinkedHashMap<>();
 
         assemblingMethods.put(ComponentType.motherboard, () -> {
@@ -63,8 +63,10 @@ public class ComputerFitterImpl implements ComputerFitter {
 
     @Override
     public ComputerSet assembleComputerSet(ComputerSet computerSet, ComputerComponent computerComponent) {
+        initMap();
         this.computerSet = computerSet;
         this.computerComponent = computerComponent;
+        System.out.println(computerComponent.getModel());
 
         ComponentType type = computerComponent.getComponentType();
         assemblingMethods.get(type).run();

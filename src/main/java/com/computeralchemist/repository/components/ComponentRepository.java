@@ -1,7 +1,5 @@
 package com.computeralchemist.repository.components;
 
-import com.computeralchemist.domain.components.cpu.Cpu;
-
 import java.util.List;
 
 /**

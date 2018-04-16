@@ -1,6 +1,6 @@
 package com.computeralchemist.domain.components;
 
-import com.computeralchemist.domain.components.computerCase.ComputerCase;
+import com.computeralchemist.repository.RepositoryProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -28,7 +28,7 @@ public class RepositoryMapperTest {
     private final String MODEL = "Celeron G3900";
 
     @Autowired
-    private RepositoryMapper repositoryMapper;
+    private RepositoryProvider repositoryMapper;
 
     @Test
     public void instantiateTest() {

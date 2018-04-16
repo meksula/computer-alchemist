@@ -1,7 +1,7 @@
 package com.computeralchemist.controller.components;
 
-import com.computeralchemist.domain.components.RepositoryMapper;
 import com.computeralchemist.domain.components.ComputerComponent;
+import com.computeralchemist.repository.RepositoryProviderImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/components/{component}/{id}")
 public class ComponentsController {
-    private RepositoryMapper repositoryMap;
+    private RepositoryProviderImpl repositoryProvider;
 
     @Autowired
-    public void setRepositoryMap(RepositoryMapper repositoryMap) {
-        this.repositoryMap = repositoryMap;
+    public void setRepositoryMap(RepositoryProviderImpl repositoryProvider) {
+        this.repositoryProvider = repositoryProvider;
     }
 
     @GetMapping(produces = "application/json; charset:UTF-8")
@@ -21,6 +21,6 @@ public class ComponentsController {
     public ComputerComponent getComponent(@PathVariable("component")String component,
                                           @PathVariable("id")long id) {
 
-        return repositoryMap.findComponent(component, id);
+        return repositoryProvider.findComponent(component, id);
     }
 }

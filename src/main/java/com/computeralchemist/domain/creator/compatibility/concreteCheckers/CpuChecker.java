@@ -14,6 +14,9 @@ public class CpuChecker extends CompatibilityChecker {
 
     @Override
     public boolean compatibilityCheck(ComputerSet set, ComputerComponent component) {
-        return true;
+        if (set.getMotherboard() == null)
+            return true;
+
+        return false;
     }
 }
