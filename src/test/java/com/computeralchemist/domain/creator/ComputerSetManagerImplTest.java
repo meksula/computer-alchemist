@@ -18,7 +18,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertTrue;
 
 
 /**

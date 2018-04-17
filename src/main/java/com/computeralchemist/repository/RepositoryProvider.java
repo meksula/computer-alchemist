@@ -3,6 +3,8 @@ package com.computeralchemist.repository;
 import com.computeralchemist.domain.components.ComputerComponent;
 import com.computeralchemist.domain.creator.setTypes.ComputerSet;
 
+import java.util.List;
+
 /**
  * @Author
  * Karol Meksuła
@@ -10,7 +12,7 @@ import com.computeralchemist.domain.creator.setTypes.ComputerSet;
  * */
 
 public interface RepositoryProvider {
-    void saveComponent(String json);
+    long saveComponent(String json);
 
     ComputerComponent findComponent(String componentType, long productId);
 
@@ -19,4 +21,8 @@ public interface RepositoryProvider {
     void saveSet(ComputerSet computerSet);
 
     long assignSetId(String type);
+
+    List<ComputerSet> getListOfComputerSet(String type);
+
+    List<ComputerComponent> getListOfComputerComponent(String type);
 }

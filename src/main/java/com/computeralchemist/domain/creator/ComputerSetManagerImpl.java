@@ -1,6 +1,5 @@
 package com.computeralchemist.domain.creator;
 
-import com.computeralchemist.domain.components.ComponentType;
 import com.computeralchemist.domain.components.ComponentTypeExtracter;
 import com.computeralchemist.domain.components.ComputerComponent;
 import com.computeralchemist.repository.RepositoryProvider;
@@ -12,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @Author
@@ -94,13 +94,21 @@ public class ComputerSetManagerImpl implements ComputerSetManager {
     @Override
     public ComputerSet loadExistComputerSet(String compSetType, long id) {
         this.computerSet = repositoryProvider.findSet(compSetType, id);
-        System.out.println("Załadowuję zestaw do konfiguracji.");
         return computerSet;
     }
 
+    @Override
+    public ComputerSet findComputerSet(String jsonComponent, long id) {
+        String toFind = extracter.extractComputerTypeFromJson(jsonComponent);
+        return repositoryProvider.findSet(toFind, id);
+    }
+
+    @Override
+    public List<ComputerSet> getComputerSetList(String type) {
+        return repositoryProvider.getListOfComputerSet(type);
+    }
+
     private void buildSet() {
-        /*System.out.println(computerSet.getAuthor() + " " + computerSet.getCreateDate());
-        System.out.println(computerComponent.getModel());*/
         this.computerSet = computerFitter.assembleComputerSet(this.computerSet, this.computerComponent);
     }
 

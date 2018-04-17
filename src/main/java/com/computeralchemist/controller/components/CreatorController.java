@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @Author
  * Karol Meksuła
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/{user}/set")
-public class SetCreationController {
+public class CreatorController {
     private ComputerSetManager computerSetManager;
 
     @Autowired
@@ -24,25 +26,24 @@ public class SetCreationController {
 
     @PostMapping(produces = "application/json; charset=UTF-8")
     @ResponseStatus(HttpStatus.CREATED)
-    public ComputerSet initNewCompSet(@PathVariable("user")String user,
+    public ComputerSet initNewCompSet(@PathVariable("user") String user,
                                       @RequestBody String type) {
 
-        return computerSetManager.initSet(user, type);
+        computerSetManager.initSet(user, type);
+        return computerSetManager.updateSet();
     }
 
-    /*@GetMapping(value = "/{type}/{id}")
+    @GetMapping(value = "/{type}/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ComputerSet getCompSet(@PathVariable("type")String type,
-                                  @PathVariable("id")long id) {
+    public ComputerSet getCompSet(@PathVariable("type") String type,
+                                  @PathVariable("id") long id) {
 
-        return computerSetManager.findComputerSetById(type, id);
-    }*/
+        return computerSetManager.loadExistComputerSet(type, id);
+    }
 
-    /*@GetMapping(value = "/list/{type}/{number}")
+    @GetMapping(value = "/{type}")
     @ResponseStatus(HttpStatus.OK)
-    public List<ComputerSet> getCompSetList(@PathVariable("type")String type,
-                                            @PathVariable("number")int number) {
-
-        return computerSetManager.getListOfCompSet(type, number);
-    }*/
+    public List<ComputerSet> getCompSetList(@PathVariable("type")String type) {
+        return computerSetManager.getComputerSetList(type);
+    }
 }

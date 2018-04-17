@@ -9,7 +9,6 @@ import com.computeralchemist.domain.components.gpu.GraphicsCard;
 import com.computeralchemist.domain.components.motherboard.Motherboard;
 import com.computeralchemist.domain.components.ram.Ram;
 import com.computeralchemist.domain.components.supply.PowerSupply;
-import com.computeralchemist.domain.creator.fitter.ComputerFitter;
 import com.computeralchemist.domain.creator.setTypes.ComputerSet;
 import org.springframework.stereotype.Service;
 

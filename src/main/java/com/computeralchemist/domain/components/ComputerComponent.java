@@ -1,8 +1,10 @@
 package com.computeralchemist.domain.components;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.hateoas.ResourceSupport;
 
 import javax.validation.constraints.NotNull;
 
@@ -15,7 +17,9 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public abstract class ComputerComponent {
+public abstract class ComputerComponent extends ResourceSupport {
+
+    public abstract long getProductId();
 
     @NotNull
     private ComponentType componentType;

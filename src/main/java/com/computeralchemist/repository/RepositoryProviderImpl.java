@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -111,19 +112,31 @@ public class RepositoryProviderImpl implements RepositoryProvider {
         return setRepositories.get(type).count() + 1;
     }
 
+    @Override
+    public List<ComputerSet> getListOfComputerSet(String type) {
+        return setRepositories.get(type).findAll();
+    }
+
+    @Override
+    public List<ComputerComponent> getListOfComputerComponent(String type) {
+        return componentRepositories.get(type).findAllComponents();
+    }
+
     private ComponentTypeExtracter extracter = ComponentTypeExtracter.getInstance();
 
     @Override
-    public void saveComponent(String json) throws RepositoryMapperException {
+    public long saveComponent(String json) throws RepositoryMapperException {
         String type = assignType(json);
         ComponentRepository componentRepository = componentRepositories.get(type);
+        long id = 0;
         try {
-            componentRepository.save(JsonParsers.valueOf(type).parseStringToComponent(json));
+            id = componentRepository.save(JsonParsers.valueOf(type).parseStringToComponent(json));
         } catch (IllegalArgumentException e) {
             throw new RepositoryMapperException(type);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return id;
     }
 
     private String assignType(String json) {

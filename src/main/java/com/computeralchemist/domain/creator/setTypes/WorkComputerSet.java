@@ -15,7 +15,7 @@ public class WorkComputerSet extends ComputerSet {
     @Id
     private long id;
 
-    public long getId() {
+    public long getSetId() {
         return id;
     }
 

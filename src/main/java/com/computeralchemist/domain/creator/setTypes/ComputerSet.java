@@ -11,6 +11,7 @@ import com.computeralchemist.domain.components.supply.PowerSupply;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.hateoas.ResourceSupport;
 
 import java.util.Map;
 
@@ -23,7 +24,7 @@ import java.util.Map;
 @Getter
 @Setter
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public abstract class ComputerSet {
+public abstract class ComputerSet extends ResourceSupport {
     private ComputerSetTypes type;
     private String author;
     private String createDate;
