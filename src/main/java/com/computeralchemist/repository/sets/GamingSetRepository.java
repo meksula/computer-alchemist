@@ -16,7 +16,7 @@ public interface GamingSetRepository extends MongoRepository<GamingComputerSet, 
     @Override
     long count();
 
-    GamingComputerSet findById(long id);
+    GamingComputerSet findBySetId(long id);
 
     @Override
     <S extends GamingComputerSet> S save(S gamingSet);

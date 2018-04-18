@@ -139,6 +139,14 @@ public class RepositoryProviderImpl implements RepositoryProvider {
         return id;
     }
 
+    @Override
+    public long saveComponent(ComputerComponent component) {
+        return componentRepositories.get(component
+                .getComponentType()
+                .toString())
+                .save(component);
+    }
+
     private String assignType(String json) {
         return extracter.extractTypeFromJson(json);
     }

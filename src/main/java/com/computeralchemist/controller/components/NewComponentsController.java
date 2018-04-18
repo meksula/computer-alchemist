@@ -32,8 +32,8 @@ public class NewComponentsController {
     @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> addNewComponent(@RequestBody String json) {
-        id = repositoryMap.saveComponent(json);
-        componentType = ComponentTypeExtracter.getInstance().extractTypeFromJson(json);
+        this.id = repositoryMap.saveComponent(json);
+        this.componentType = ComponentTypeExtracter.getInstance().extractTypeFromJson(json);
 
         return ResponseEntity.created(buildUri()).body(buildUri());
     }

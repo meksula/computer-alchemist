@@ -9,6 +9,7 @@ import com.computeralchemist.domain.components.motherboard.Motherboard;
 import com.computeralchemist.domain.components.ram.Ram;
 import com.computeralchemist.domain.components.supply.PowerSupply;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.hateoas.ResourceSupport;
@@ -25,6 +26,9 @@ import java.util.Map;
 @Setter
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public abstract class ComputerSet extends ResourceSupport {
+
+    public abstract long getSetId();
+
     private ComputerSetTypes type;
     private String author;
     private String createDate;

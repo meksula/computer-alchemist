@@ -16,7 +16,7 @@ public interface WorkSetRepository extends MongoRepository<WorkComputerSet, Long
     @Override
     long count();
 
-    WorkComputerSet findById(long id);
+    WorkComputerSet findBySetId(long id);
 
     @Override
     <S extends WorkComputerSet> S save(S workSet);

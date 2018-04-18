@@ -1,4 +1,4 @@
-package com.computeralchemist.domain;
+package com.computeralchemist.domain.components.exceptions;
 
 /**
  * @Author

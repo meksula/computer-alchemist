@@ -14,6 +14,8 @@ import java.util.List;
 public interface RepositoryProvider {
     long saveComponent(String json);
 
+    long saveComponent(ComputerComponent component);
+
     ComputerComponent findComponent(String componentType, long productId);
 
     ComputerSet findSet(String setType, long setId);

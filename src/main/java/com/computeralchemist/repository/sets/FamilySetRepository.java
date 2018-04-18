@@ -16,7 +16,7 @@ public interface FamilySetRepository extends MongoRepository<FamilyComputerSet, 
     @Override
     long count();
 
-    FamilyComputerSet findById(long id);
+    FamilyComputerSet findBySetId(long id);
 
     @Override
     <S extends FamilyComputerSet> S save(S entity);

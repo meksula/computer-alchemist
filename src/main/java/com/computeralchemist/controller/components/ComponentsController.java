@@ -1,6 +1,8 @@
 package com.computeralchemist.controller.components;
 
+import com.computeralchemist.controller.exception.ComponentListNotFoundException;
 import com.computeralchemist.domain.components.ComputerComponent;
+import com.computeralchemist.controller.exception.ComponentNotFoundException;
 import com.computeralchemist.repository.RepositoryProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,18 +31,31 @@ public class ComponentsController {
 
     @GetMapping(value = "/{id}", produces = "application/json; charset:UTF-8")
     @ResponseStatus(HttpStatus.OK)
-    public ComputerComponent getComponent(@PathVariable("component")String component,
-                                          @PathVariable("id")long id) {
+    public ComputerComponent getComponent(@PathVariable("component") String component,
+                                          @PathVariable("id") long id) {
 
         ComputerComponent computerComponent = repositoryProvider.findComponent(component, id);
-        computerComponent.add(linkTo(methodOn(ComponentsController.class).getComponent(component, id)).withSelfRel());
+
+        if (computerComponent == null)
+            throw new ComponentNotFoundException(component, id);
+
+        computerComponent.add(linkTo(methodOn(ComponentsController.class)
+                .getComponent(component, id)).withSelfRel());
+
         return computerComponent;
     }
 
     @GetMapping(produces = "application/json; charset:UTF-8")
     @ResponseStatus(HttpStatus.OK)
     public List<ComputerComponent> getListOfComponents(@PathVariable("component")String component) {
-        return setLinks(repositoryProvider.getListOfComputerComponent(component));
+        List<ComputerComponent> componentList;
+        try {
+            componentList = repositoryProvider.getListOfComputerComponent(component);
+        } catch (NullPointerException e) {
+            throw new ComponentListNotFoundException(component);
+        }
+
+        return setLinks(componentList);
     }
 
     private List<ComputerComponent> setLinks(List<ComputerComponent> components) {
@@ -51,4 +66,5 @@ public class ComponentsController {
         });
         return components;
     }
+
 }

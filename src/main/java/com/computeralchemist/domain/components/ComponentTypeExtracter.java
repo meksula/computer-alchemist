@@ -1,7 +1,5 @@
 package com.computeralchemist.domain.components;
 
-import com.computeralchemist.controller.exception.NoSuchComponentException;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

@@ -1,4 +1,4 @@
-package com.computeralchemist.controller;
+package com.computeralchemist.controller.main;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +26,7 @@ public class MainApiController {
     }
 
     private String readFile() throws IOException {
-        Path path = Paths.get("/home/karol/computer-alchemist/snip-doc.txt");
+        Path path = Paths.get("snip-doc.txt");
 
         StringBuilder data = new StringBuilder();
         Stream<String> lines = Files.lines(path);

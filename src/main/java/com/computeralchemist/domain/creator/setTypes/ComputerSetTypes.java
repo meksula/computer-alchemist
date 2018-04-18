@@ -13,7 +13,7 @@ public enum ComputerSetTypes {
         public ComputerSet createSet(long id) {
             WorkComputerSet computerSet = new WorkComputerSet();
             computerSet.setType(this);
-            computerSet.setId(id);
+            computerSet.setSetId(id);
             return computerSet;
         }
     },
@@ -23,7 +23,7 @@ public enum ComputerSetTypes {
         public ComputerSet createSet(long id) {
             FamilyComputerSet computerSet = new FamilyComputerSet();
             computerSet.setType(this);
-            computerSet.setId(id);
+            computerSet.setSetId(id);
             return computerSet;
         }
     },
@@ -33,7 +33,7 @@ public enum ComputerSetTypes {
         public ComputerSet createSet(long id) {
             GamingComputerSet computerSet = new GamingComputerSet();
             computerSet.setType(this);
-            computerSet.setId(id);
+            computerSet.setSetId(id);
             return computerSet;
         }
     };

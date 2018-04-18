@@ -1,5 +1,7 @@
 package com.computeralchemist.domain.creator.setTypes;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -9,18 +11,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * 11-04-2018
  * */
 
+@Getter
+@Setter
 @Document(collection = "familyset")
 public class FamilyComputerSet extends ComputerSet {
 
     @Id
-    private long id;
-
-    public long getSetId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
+    private long setId;
 
 }

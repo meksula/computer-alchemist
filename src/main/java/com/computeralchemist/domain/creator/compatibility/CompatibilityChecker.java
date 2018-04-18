@@ -1,6 +1,6 @@
 package com.computeralchemist.domain.creator.compatibility;
 
-import com.computeralchemist.domain.NoComponentTypeException;
+import com.computeralchemist.domain.components.exceptions.NoComponentTypeException;
 import com.computeralchemist.domain.components.ComponentType;
 import com.computeralchemist.domain.components.ComputerComponent;
 import com.computeralchemist.domain.creator.compatibility.concreteCheckers.*;

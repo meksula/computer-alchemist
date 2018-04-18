@@ -3,17 +3,22 @@ package com.computeralchemist.controller.exception;
 /**
  * @Author
  * Karol Meksuła
- * 02-04-2018
+ * 17-04-2018
  * */
 
 public class ComponentNotFoundException extends RuntimeException {
-    private long componentId;
 
-    public ComponentNotFoundException(long componentId) {
-        this.componentId = componentId;
+    private static String component;
+    private static long productId;
+
+    public ComponentNotFoundException(String component, long id) {
+        this.component = component;
+        this.productId = id;
     }
 
-    public long getComponentId() {
-        return componentId;
+    public static class Error {
+        public static String reportOne() {
+            return "Error. Component: [" + component + "], productId:[" + productId + "] not Exist!";
+        }
     }
 }
