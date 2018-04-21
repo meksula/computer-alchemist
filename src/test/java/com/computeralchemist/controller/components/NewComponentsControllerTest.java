@@ -1,9 +1,10 @@
 package com.computeralchemist.controller.components;
 
 import com.computeralchemist.domain.components.ComponentType;
-import com.computeralchemist.domain.components.ComputerComponent;
-import com.computeralchemist.domain.components.motherboard.Motherboard;
+import com.computeralchemist.domain.components.ram.Ram;
+import com.computeralchemist.domain.components.ram.RamParameters;
 import com.computeralchemist.repository.RepositoryProvider;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,14 +33,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * @Author
  * Karol Meksuła
- * 18-04-2018
+ * 21-04-2018
  * */
 
 @Slf4j
-@RunWith(SpringRunner.class)
 @SpringBootTest
+@RunWith(SpringRunner.class)
 @WebAppConfiguration
-public class ComponentsControllerTest {
+public class NewComponentsControllerTest {
 
     private MediaType mediaType = new MediaType(MediaType.APPLICATION_JSON_UTF8.getType(),
             MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
@@ -51,8 +52,7 @@ public class ComponentsControllerTest {
 
     @Autowired
     public void setMessageConverter(HttpMessageConverter<?>[] convs) {
-        mappingJackson2HttpMessageConverter = Arrays.asList(convs)
-                .stream()
+        mappingJackson2HttpMessageConverter = Arrays.stream(convs)
                 .filter(converter -> converter instanceof MappingJackson2HttpMessageConverter)
                 .findAny()
                 .orElse(null);
@@ -60,12 +60,19 @@ public class ComponentsControllerTest {
 
     private MockMvc mockMvc;
 
-    private Motherboard motherboard = new Motherboard();
-    private final String PRODUCENT = "Gigabyte";
-    private final String MODEL = "GT3994";
-
     @Autowired
     private RepositoryProvider repositoryProvider;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    private Ram ram = new Ram();
+    private RamParameters ramParameters = new RamParameters();
+    private final ComponentType TYPE = ComponentType.ram;
+    private final String PRODUCENT = "Crucial";
+    private final String MODEL = "md343";
+    private final double FREQUENCY = 3444;
+    private final String MEMORY_TYPE = "DDR4";
 
     @Before
     public void setUp() {
@@ -73,9 +80,12 @@ public class ComponentsControllerTest {
                 .webAppContextSetup(context)
                 .build();
 
-        motherboard.setComponentType(ComponentType.motherboard);
-        motherboard.setProducent(PRODUCENT);
-        motherboard.setModel(MODEL);
+        ramParameters.setFrequency(FREQUENCY);
+        ramParameters.setMemoryType(MEMORY_TYPE);
+        ram.setRamParameters(ramParameters);
+        ram.setProducent(PRODUCENT);
+        ram.setModel(MODEL);
+        ram.setComponentType(TYPE);
     }
 
     @Test
@@ -84,46 +94,32 @@ public class ComponentsControllerTest {
         assertNotNull(mappingJackson2HttpMessageConverter);
         assertNotNull(mockMvc);
         assertNotNull(repositoryProvider);
+        assertNotNull(objectMapper);
     }
 
     @Test
-    public void componentShouldBeFound() throws Exception {
-        long productId = repositoryProvider.saveComponent(motherboard);
-        ComputerComponent computerComponent =
-                repositoryProvider.findComponent("motherboard", productId);
-        assertNotNull(computerComponent);
+    public void addNewComponentTest_shouldAddCorrectly() throws Exception {
+        String ramJson = objectMapper.writeValueAsString(ram);
 
-        log.info("ProductId: " + productId);
-        mockMvc.perform(get("/components/" +
-                computerComponent.getComponentType().toString() + "/" + productId))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.producent", is(PRODUCENT)))
-                .andExpect(jsonPath("$.model", is(MODEL)))
-                .andExpect(content().contentType(mediaType));
-    }
-
-    private long INVALID_ID = 3443;
-
-    @Test
-    public void componentShouldNotBeFound() throws Exception {
-        mockMvc.perform(get("/components/motherboard/" + INVALID_ID))
-                .andExpect(content().contentType(mediaType))
-                .andExpect(status().isNotFound());
+        mockMvc.perform(post("/components")
+                .content(ramJson)
+                .contentType(mediaType)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isCreated())
+                .andExpect(header().string("location",
+                        containsString("http://localhost/components/" + TYPE + "/")));
     }
 
     @Test
-    public void listOfComponentsShouldBeFound() throws Exception {
-        mockMvc.perform(get("/components/motherboard"))
-                .andExpect(content().contentType(mediaType))
-                .andExpect(status().isOk())
-                .andDo(MockMvcResultHandlers.print());
-    }
+    public void addNewComponentTest_shouldNotAddCorrectly() throws Exception {
+        String ramJson = objectMapper.writeValueAsString(ram).toUpperCase();
 
-    @Test
-    public void listOfComponentsNotFound() throws Exception {
-        mockMvc.perform(get("/components/mottthheeedd"))
-                .andExpect(content().contentType(mediaType))
-                .andExpect(status().isNotFound());
+        mockMvc.perform(post("/components")
+                .content(ramJson)
+                .contentType(mediaType)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isConflict());
     }
-
 }

@@ -1,10 +1,7 @@
 package com.computeralchemist.controller.components;
 
 
-import com.computeralchemist.controller.exception.ComponentListNotFoundException;
-import com.computeralchemist.controller.exception.ComponentNotFoundException;
-import com.computeralchemist.controller.exception.SetNotFoundException;
-import com.computeralchemist.controller.exception.SetTypeNotSupportedException;
+import com.computeralchemist.controller.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -32,15 +29,27 @@ public class ExceptionHandlerAdvice {
     }
 
     @ExceptionHandler(SetTypeNotSupportedException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.NOT_MODIFIED)
     public String setTypeNotSupport() {
         return SetTypeNotSupportedException.Error.report();
     }
 
     @ExceptionHandler(SetNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    private String setNotFound() {
+    public String setNotFound() {
         return SetNotFoundException.Error.report();
+    }
+
+    @ExceptionHandler(SetListNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String setListNotFound() {
+        return SetListNotFoundException.Error.report();
+    }
+
+    @ExceptionHandler(BadComponentTypeException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String componentNotCorrect() {
+        return BadComponentTypeException.Error.report();
     }
 
 }

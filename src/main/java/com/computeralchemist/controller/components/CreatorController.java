@@ -1,5 +1,6 @@
 package com.computeralchemist.controller.components;
 
+import com.computeralchemist.controller.exception.SetListNotFoundException;
 import com.computeralchemist.controller.exception.SetNotFoundException;
 import com.computeralchemist.controller.exception.SetTypeNotSupportedException;
 import com.computeralchemist.domain.creator.setTypes.ComputerSet;
@@ -50,7 +51,7 @@ public class CreatorController {
 
         computerSetManager.updateSet();
 
-        return ResponseEntity.created(URI.create(buildUri())).body(buildUri());
+        return ResponseEntity.created(URI.create(buildUri())).build();
     }
 
     private String buildUri() {
@@ -78,7 +79,14 @@ public class CreatorController {
     @GetMapping(value = "/{type}")
     @ResponseStatus(HttpStatus.OK)
     public List<ComputerSet> getCompSetList(@PathVariable("type")String type) {
-        return computerSetManager.getComputerSetList(type);
+        List<ComputerSet> list;
+        try {
+            list = computerSetManager.getComputerSetList(type);
+        } catch (NullPointerException npo) {
+            throw new SetListNotFoundException(type);
+        }
+
+        return list;
     }
 
 }
