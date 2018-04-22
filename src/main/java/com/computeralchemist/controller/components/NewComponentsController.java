@@ -1,6 +1,5 @@
 package com.computeralchemist.controller.components;
 
-import com.computeralchemist.controller.exception.BadComponentTypeException;
 import com.computeralchemist.domain.components.ComponentTypeExtracter;
 import com.computeralchemist.repository.RepositoryProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +32,8 @@ public class NewComponentsController {
     @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> addNewComponent(@RequestBody String json) {
-        try {
-            this.id = repositoryMap.saveComponent(json);
-            this.componentType = ComponentTypeExtracter.getInstance().extractTypeFromJson(json);
-        } catch (IllegalArgumentException | StringIndexOutOfBoundsException iae) {
-            throw new BadComponentTypeException(json);
-        }
+        this.componentType = ComponentTypeExtracter.getInstance().extractTypeFromJson(json);
+        this.id = repositoryMap.saveComponent(json);
 
         return ResponseEntity.created(buildUri()).build();
     }

@@ -1,5 +1,7 @@
 package com.computeralchemist.domain.components;
 
+import com.computeralchemist.controller.exception.BadComponentTypeException;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,13 +25,19 @@ public class ComponentTypeExtracter {
     private final String PATTERN_SEC = ":\"[a-z]{3,}";
 
     public String extractTypeFromJson(String json) {
-        String firstStep = extractingType(json);
-        String result = finalExtracting(firstStep);
+        String result = null;
+
+        try {
+            String firstStep = extractingType(json);
+            result = finalExtracting(firstStep);
+        } catch (IllegalArgumentException | StringIndexOutOfBoundsException iae) {
+            throw new BadComponentTypeException(result);
+        }
 
         if (isComponentExist(result))
             return result;
 
-        throw new NoSuchComponentException(result);
+        throw new BadComponentTypeException(result);
     }
 
     public String extractComputerTypeFromJson(String json) {

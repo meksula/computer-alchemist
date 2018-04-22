@@ -1,10 +1,13 @@
 package com.computeralchemist.repository;
 
+import com.computeralchemist.controller.exception.ComponentExistException;
+import com.computeralchemist.controller.exception.SetNotFoundException;
 import com.computeralchemist.domain.components.ComponentTypeExtracter;
 import com.computeralchemist.domain.components.ComputerComponent;
 import com.computeralchemist.domain.components.JsonParsers;
 import com.computeralchemist.domain.components.exceptions.RepositoryMapperException;
 import com.computeralchemist.domain.creator.setTypes.ComputerSet;
+import com.computeralchemist.domain.repetition_protector.RepetitionProtector;
 import com.computeralchemist.repository.components.ComponentRepository;
 import com.computeralchemist.repository.components.compCase.ComputerCaseRepository;
 import com.computeralchemist.repository.components.cpu.CpuRepository;
@@ -21,10 +24,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @Author
@@ -49,6 +49,8 @@ public class RepositoryProviderImpl implements RepositoryProvider {
     private GamingSetRepository gamingSetRepository;
     private FamilySetRepository familySetRepository;
 
+    private RepetitionProtector protector;
+
     @Autowired
     public void setRepositories(MotherboardRepository motherboardRepository,
                                 CpuRepository cpuRepository,
@@ -59,7 +61,8 @@ public class RepositoryProviderImpl implements RepositoryProvider {
                                 ComputerCaseRepository computerCaseRepository,
                                 WorkSetRepository workSetRepository,
                                 GamingSetRepository gamingSetRepository,
-                                FamilySetRepository familySetRepository) {
+                                FamilySetRepository familySetRepository,
+                                RepetitionProtector repetitionProtector) {
         this.motherboardRepository = motherboardRepository;
         this.cpuRepository = cpuRepository;
         this.ramRepository = ramRepository;
@@ -71,6 +74,7 @@ public class RepositoryProviderImpl implements RepositoryProvider {
         this.workSetRepository = workSetRepository;
         this.gamingSetRepository = gamingSetRepository;
         this.familySetRepository = familySetRepository;
+        this.protector = repetitionProtector;
 
         fillMap();
     }
@@ -96,8 +100,22 @@ public class RepositoryProviderImpl implements RepositoryProvider {
     }
 
     @Override
+    public ComputerComponent findComponentByProducentAndModel(ComputerComponent component) {
+        ComponentRepository componentRepository =
+                componentRepositories.get(component.getComponentType().toString());
+
+        return (ComputerComponent) componentRepository.findByModel(component.getModel());
+    }
+
+    @Override
     public ComputerSet findSet(String setType, long setId) {
-        Optional<ComputerSet> optional = setRepositories.get(setType).findById(setId);
+        Optional<ComputerSet> optional;
+        try {
+            optional = setRepositories.get(setType).findById(setId);
+        } catch (NoSuchElementException exception) {
+            throw new SetNotFoundException(setType, setId);
+        }
+
         return optional.get();
     }
 
@@ -130,9 +148,16 @@ public class RepositoryProviderImpl implements RepositoryProvider {
         ComponentRepository componentRepository = componentRepositories.get(type);
         long id = 0;
         try {
-            id = componentRepository.save(JsonParsers.valueOf(type).parseStringToComponent(json));
+            ComputerComponent component = JsonParsers.valueOf(type).parseStringToComponent(json);
+
+            if (protector.isComponentExist(component))
+                throw new ComponentExistException(component);
+
+            id = componentRepository.save(component);
+
         } catch (IllegalArgumentException e) {
             throw new RepositoryMapperException(type);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -141,6 +166,10 @@ public class RepositoryProviderImpl implements RepositoryProvider {
 
     @Override
     public long saveComponent(ComputerComponent component) {
+        if (protector.isComponentExist(component)) {
+            throw new ComponentExistException(component);
+        }
+
         return componentRepositories.get(component
                 .getComponentType()
                 .toString())

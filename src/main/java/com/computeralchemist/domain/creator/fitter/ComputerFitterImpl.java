@@ -27,7 +27,11 @@ public class ComputerFitterImpl implements ComputerFitter {
     private ComputerSet computerSet;
     private ComputerComponent computerComponent;
 
-    public void initMap() {
+    public ComputerFitterImpl() {
+        initMap();
+    }
+
+    private void initMap() {
         this.assemblingMethods = new LinkedHashMap<>();
 
         assemblingMethods.put(ComponentType.motherboard, () -> {
@@ -62,10 +66,8 @@ public class ComputerFitterImpl implements ComputerFitter {
 
     @Override
     public ComputerSet assembleComputerSet(ComputerSet computerSet, ComputerComponent computerComponent) {
-        initMap();
         this.computerSet = computerSet;
         this.computerComponent = computerComponent;
-        System.out.println(computerComponent.getModel());
 
         ComponentType type = computerComponent.getComponentType();
         assemblingMethods.get(type).run();

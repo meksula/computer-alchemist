@@ -51,8 +51,7 @@ public class ComponentsControllerTest {
 
     @Autowired
     public void setMessageConverter(HttpMessageConverter<?>[] convs) {
-        mappingJackson2HttpMessageConverter = Arrays.asList(convs)
-                .stream()
+        mappingJackson2HttpMessageConverter = Arrays.stream(convs)
                 .filter(converter -> converter instanceof MappingJackson2HttpMessageConverter)
                 .findAny()
                 .orElse(null);

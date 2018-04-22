@@ -1,5 +1,8 @@
 package com.computeralchemist.domain.creator;
 
+import com.computeralchemist.controller.exception.ComponentNotFoundException;
+import com.computeralchemist.controller.exception.SetNotFoundException;
+import com.computeralchemist.controller.exception.SetTypeNotSupportedException;
 import com.computeralchemist.domain.components.ComponentTypeExtracter;
 import com.computeralchemist.domain.components.ComputerComponent;
 import com.computeralchemist.repository.RepositoryProvider;
@@ -56,7 +59,11 @@ public class ComputerSetManagerImpl implements ComputerSetManager {
     }
 
     private void assignType(String jsonType) {
-        this.type = ComputerSetTypes.valueOf(extracter.extractComputerTypeFromJson(jsonType));
+        try {
+            this.type = ComputerSetTypes.valueOf(extracter.extractComputerTypeFromJson(jsonType));
+        } catch (IllegalArgumentException e) {
+            throw new SetTypeNotSupportedException(jsonType);
+        }
     }
 
     private long assignSetId() {
@@ -74,10 +81,13 @@ public class ComputerSetManagerImpl implements ComputerSetManager {
     @Override
     public void prepareComponentToAssembling(String type, long productId) {
         this.computerComponent = repositoryProvider.findComponent(type, productId);
+
+        if (computerComponent == null)
+            throw new ComponentNotFoundException(type, productId);
     }
 
     @Override
-    public ComputerSet assembleComponent() throws NothingHasChangedException {
+    public ComputerSet assembleComponent() {
         CompatibilityChecker checker = CompatibilityChecker
                 .build(computerComponent.getComponentType());
 
@@ -86,7 +96,7 @@ public class ComputerSetManagerImpl implements ComputerSetManager {
         if (compatible)
             buildSet();
 
-        else throw new NothingHasChangedException();
+        else throw new NothingHasChangedException(computerSet, computerComponent);
 
         return computerSet;
     }
@@ -94,6 +104,10 @@ public class ComputerSetManagerImpl implements ComputerSetManager {
     @Override
     public ComputerSet loadExistComputerSet(String compSetType, long id) {
         this.computerSet = repositoryProvider.findSet(compSetType, id);
+
+        if (computerSet == null)
+            throw new SetNotFoundException(compSetType, id);
+
         return computerSet;
     }
 
@@ -106,6 +120,11 @@ public class ComputerSetManagerImpl implements ComputerSetManager {
     @Override
     public List<ComputerSet> getComputerSetList(String type) {
         return repositoryProvider.getListOfComputerSet(type);
+    }
+
+    @Override
+    public boolean hasLoadedSet() {
+        return computerSet != null;
     }
 
     private void buildSet() {

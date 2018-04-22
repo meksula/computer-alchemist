@@ -18,6 +18,8 @@ public interface RepositoryProvider {
 
     ComputerComponent findComponent(String componentType, long productId);
 
+    ComputerComponent findComponentByProducentAndModel(ComputerComponent component);
+
     ComputerSet findSet(String setType, long setId);
 
     void saveSet(ComputerSet computerSet);
@@ -27,4 +29,5 @@ public interface RepositoryProvider {
     List<ComputerSet> getListOfComputerSet(String type);
 
     List<ComputerComponent> getListOfComputerComponent(String type);
+
 }

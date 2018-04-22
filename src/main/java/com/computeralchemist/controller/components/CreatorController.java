@@ -1,8 +1,8 @@
 package com.computeralchemist.controller.components;
 
+import com.computeralchemist.controller.others.ComponentBasicData;
 import com.computeralchemist.controller.exception.SetListNotFoundException;
 import com.computeralchemist.controller.exception.SetNotFoundException;
-import com.computeralchemist.controller.exception.SetTypeNotSupportedException;
 import com.computeralchemist.domain.creator.setTypes.ComputerSet;
 import com.computeralchemist.domain.creator.ComputerSetManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,12 +39,8 @@ public class CreatorController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> initNewCompSet(@PathVariable("user") String user,
                                       @RequestBody String type) {
-        ComputerSet computerSet;
-        try {
-            computerSet = computerSetManager.initSet(user, type);
-        } catch (IllegalArgumentException e) {
-            throw new SetTypeNotSupportedException(type);
-        }
+
+        ComputerSet computerSet = computerSetManager.initSet(user, type);
 
         this.type = computerSet.getType().toString();
         this.id = computerSet.getSetId();
@@ -76,7 +72,7 @@ public class CreatorController {
         return computerSet;
     }
 
-    @GetMapping(value = "/{type}")
+    @GetMapping(value = "/{type}", produces = "application/json; charset=UTF-8")
     @ResponseStatus(HttpStatus.OK)
     public List<ComputerSet> getCompSetList(@PathVariable("type")String type) {
         List<ComputerSet> list;
@@ -87,6 +83,18 @@ public class CreatorController {
         }
 
         return list;
+    }
+
+    @PutMapping(value = "/{type}/{id}", produces = "application/json; charset=UTF-8")
+    @ResponseStatus(HttpStatus.OK)
+    public ComputerSet assembleComponentToSet(@PathVariable("type")String type,
+                                              @PathVariable("id")long id,
+                                              @RequestBody ComponentBasicData basicData) {
+
+        computerSetManager.loadExistComputerSet(type, id);
+        computerSetManager.prepareComponentToAssembling(basicData.getComponentType(), basicData.getId());
+        computerSetManager.assembleComponent();
+        return computerSetManager.updateSet();
     }
 
 }

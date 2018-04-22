@@ -2,6 +2,7 @@ package com.computeralchemist.controller.components;
 
 
 import com.computeralchemist.controller.exception.*;
+import com.computeralchemist.domain.creator.NothingHasChangedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -52,4 +53,15 @@ public class ExceptionHandlerAdvice {
         return BadComponentTypeException.Error.report();
     }
 
+    @ExceptionHandler(ComponentExistException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String componentExist() {
+        return ComponentExistException.getRaport();
+    }
+
+    @ExceptionHandler(NothingHasChangedException.class)
+    @ResponseStatus(HttpStatus.NOT_MODIFIED)
+    public String computerSetNotModified() {
+        return NothingHasChangedException.getRaport();
+    }
 }

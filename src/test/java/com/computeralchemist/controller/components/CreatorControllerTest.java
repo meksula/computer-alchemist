@@ -1,11 +1,19 @@
 package com.computeralchemist.controller.components;
 
+import com.computeralchemist.domain.components.ComponentType;
+import com.computeralchemist.domain.components.ComputerComponent;
+import com.computeralchemist.domain.components.disk.Disk;
+import com.computeralchemist.domain.components.ram.Ram;
+import com.computeralchemist.domain.creator.ComputerSetManager;
+import com.computeralchemist.domain.creator.setTypes.ComputerSet;
+import com.computeralchemist.domain.creator.setTypes.ComputerSetTypes;
 import com.computeralchemist.repository.RepositoryProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runner.Computer;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.mockito.Mock;
@@ -26,10 +34,13 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.describedAs;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -94,7 +105,7 @@ public class CreatorControllerTest {
                 .content(JSON_TYPE)
                 .contentType(mediaType)
                 .accept(MediaType.APPLICATION_JSON))
-                .andDo(MockMvcResultHandlers.print())
+                .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(header().string("location", containsString("http://localhost/set/gaming/1")));
     }
@@ -105,7 +116,7 @@ public class CreatorControllerTest {
                 .content(INVALID_JSON_TYPE)
                 .contentType(mediaType)
                 .accept(MediaType.APPLICATION_JSON))
-                .andDo(MockMvcResultHandlers.print())
+                .andDo(print())
                 .andExpect(status().isNotModified());
     }
 
@@ -115,21 +126,21 @@ public class CreatorControllerTest {
     @Test
     public void getCompSet_shouldFindSetCorrectly() throws Exception {
         mockMvc.perform(get("/set/" + SET_TYPE + "/" + JUST_SAVED_ID))
-                .andDo(MockMvcResultHandlers.print())
+                .andDo(print())
                 .andExpect(status().isOk());
     }
 
     @Test
     public void getCompSet_shouldNotFindSet() throws Exception {
         mockMvc.perform(get("/set/" + SET_TYPE + "/" + INVALID_ID))
-                .andDo(MockMvcResultHandlers.print())
+                .andDo(print())
                 .andExpect(status().isNotFound());
     }
 
     @Test
     public void getCompSetList_shouldGetCorrectly() throws Exception {
         mockMvc.perform(get("/set/" + SET_TYPE))
-                .andDo(MockMvcResultHandlers.print())
+                .andDo(print())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(status().isOk());
     }
@@ -139,9 +150,72 @@ public class CreatorControllerTest {
     @Test
     public void getCompSetList_shouldNotGetCorrectly() throws Exception {
         mockMvc.perform(get("/set/" + INVALID_TYPE))
-                .andDo(MockMvcResultHandlers.print())
+                .andDo(print())
                 .andExpect(status().isNotFound());
     }
+
+    @Autowired
+    private ComputerSetManager manager;
+
+    private final ComputerSetTypes TYPE = ComputerSetTypes.gaming;
+
+    @Test
+    public void managerHasSetLoaded_shouldReturnTrue() {
+        boolean flag = manager.hasLoadedSet();
+        assertTrue(flag);
+    }
+
+    private final String DISK_PRODUCENT = "Seagate";
+
+    @Test
+    public void postMethodShouldAddOrModifyComponent() throws Exception {
+        ComputerSet computerSet = manager.initSet(USER_NAME, TYPE);
+        manager.updateSet();
+        assertEquals(USER_NAME, computerSet.getAuthor());
+        long id = computerSet.getSetId();
+
+        /*manager.loadExistComputerSet("gaming", id)
+        assertNotNull();*/
+
+        Disk disk = new Disk();
+        disk.setProducent(DISK_PRODUCENT);
+        disk.setComponentType(ComponentType.disk);
+
+        long diskid = repositoryProvider.saveComponent(disk);
+        disk.setProductId(diskid);
+        log.info(String.valueOf(diskid));
+
+        String diskJson = "{\"componentType\":\"disk\", \"id\":" + diskid + "}";
+        log.info(diskJson);
+
+        ComputerComponent comp = repositoryProvider.findComponent("disk", diskid);
+        assertNotNull(comp);
+
+        mockMvc.perform(put("/set/" + TYPE.toString() + "/" + id)
+                .content(diskJson)
+                .contentType(mediaType)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        ComputerSet updated = repositoryProvider.findSet(TYPE.toString(), id);
+
+        assertNotNull(updated.getDisk());
+        assertEquals(DISK_PRODUCENT, updated.getDisk().getProducent());
+    }
+
+    @Test
+    public void putMethodShouldNoMakeChanges() throws Exception {
+        String ramJson = "{\"componentType\":\"ram\", \"id\":" + 33 + "}";
+
+        mockMvc.perform(put("/set/" + TYPE.toString() + "/" + 1)
+                .content(ramJson)
+                .contentType(mediaType)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
 
 }
 

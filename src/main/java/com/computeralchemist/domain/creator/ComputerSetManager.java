@@ -27,4 +27,6 @@ public interface ComputerSetManager {
     ComputerSet findComputerSet(String jsonComponent, long id);
 
     List<ComputerSet> getComputerSetList(String type);
+
+    boolean hasLoadedSet();
 }

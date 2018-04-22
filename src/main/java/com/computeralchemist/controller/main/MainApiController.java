@@ -1,7 +1,9 @@
 package com.computeralchemist.controller.main;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -17,10 +19,11 @@ import java.util.stream.Stream;
  * */
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/doc")
 public class MainApiController {
 
     @GetMapping(produces = "application/json; charset=utf-8")
+    @ResponseStatus(HttpStatus.OK)
     public String apiDoc() throws IOException {
         return readFile();
     }
