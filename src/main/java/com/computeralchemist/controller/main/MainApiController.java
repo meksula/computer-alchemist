@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,21 +25,22 @@ import java.util.stream.Stream;
 @RequestMapping("/doc")
 public class MainApiController {
 
-    @GetMapping(produces = "application/json; charset=utf-8")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public String apiDoc() throws IOException {
         return readFile();
     }
 
     private String readFile() throws IOException {
-        Path path = Paths.get("snip-doc.txt");
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("./snip-doc.txt").getFile());
 
-        StringBuilder data = new StringBuilder();
-        Stream<String> lines = Files.lines(path);
-        lines.forEach(line -> data.append(line).append("\n"));
+        StringBuilder builder = new StringBuilder();
+        Stream<String> lines = Files.lines(file.toPath());
+        lines.forEach(line -> builder.append(line).append("\n"));
         lines.close();
 
-        return data.toString();
+        return builder.toString();
     }
 
 }

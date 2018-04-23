@@ -112,11 +112,10 @@ public class RepositoryProviderImpl implements RepositoryProvider {
         Optional<ComputerSet> optional;
         try {
             optional = setRepositories.get(setType).findById(setId);
+            return optional.get();
         } catch (NoSuchElementException exception) {
             throw new SetNotFoundException(setType, setId);
         }
-
-        return optional.get();
     }
 
     @Override
@@ -138,6 +137,29 @@ public class RepositoryProviderImpl implements RepositoryProvider {
     @Override
     public List<ComputerComponent> getListOfComputerComponent(String type) {
         return componentRepositories.get(type).findAllComponents();
+    }
+
+    @Override
+    public boolean removeSet(String type, long id) {
+        Optional<ComputerSet> optional = setRepositories.get(type).findById(id);
+
+        if (optional.get() == null)
+            return false;
+        else {
+            setRepositories.get(type).deleteById(id);
+            return true;
+        }
+    }
+
+    @Override
+    public boolean removeComponent(String type, long id) {
+        ComputerComponent component = (ComputerComponent) componentRepositories.get(type).findByProductId(id);
+
+        if (component == null)
+            return false;
+
+        componentRepositories.get(type).deleteByProductId(id);
+        return true;
     }
 
     private ComponentTypeExtracter extracter = ComponentTypeExtracter.getInstance();

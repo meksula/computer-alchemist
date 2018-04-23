@@ -32,5 +32,6 @@ public abstract class ComputerComponent extends ResourceSupport {
     private String urlToResource;
     private double compatibleIndex;
     private long votes;
+    private double ratesEvg;
 
 }

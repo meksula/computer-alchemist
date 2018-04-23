@@ -1,19 +1,20 @@
 package com.computeralchemist.controller.components;
 
+import com.computeralchemist.controller.exception.SetNotFoundException;
 import com.computeralchemist.controller.others.ComponentBasicData;
 import com.computeralchemist.controller.exception.SetListNotFoundException;
-import com.computeralchemist.controller.exception.SetNotFoundException;
 import com.computeralchemist.domain.creator.setTypes.ComputerSet;
 import com.computeralchemist.domain.creator.ComputerSetManager;
+import com.computeralchemist.repository.RepositoryProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import sun.security.provider.certpath.OCSPResponse;
 
 import java.net.URI;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 
 /**
@@ -26,10 +27,13 @@ import java.util.NoSuchElementException;
 @RequestMapping(value = "/set")
 public class CreatorController {
     private ComputerSetManager computerSetManager;
+    private RepositoryProvider repositoryProvider;
 
     @Autowired
-    public void setComputerSetManager(ComputerSetManager computerSetManager) {
+    public void setComputerSetManager(ComputerSetManager computerSetManager,
+                                      RepositoryProvider repositoryProvider) {
         this.computerSetManager = computerSetManager;
+        this.repositoryProvider = repositoryProvider;
     }
 
     private String type;
@@ -62,14 +66,8 @@ public class CreatorController {
     @ResponseStatus(HttpStatus.OK)
     public ComputerSet getCompSet(@PathVariable("type") String type,
                                   @PathVariable("id") long id) {
-        ComputerSet computerSet;
-        try {
-            computerSet = computerSetManager.loadExistComputerSet(type, id);
-        } catch (NoSuchElementException | NullPointerException exception) {
-            throw new SetNotFoundException(type, id);
-        }
 
-        return computerSet;
+        return computerSetManager.loadExistComputerSet(type, id);
     }
 
     @GetMapping(value = "/{type}", produces = "application/json; charset=UTF-8")
@@ -95,6 +93,17 @@ public class CreatorController {
         computerSetManager.prepareComponentToAssembling(basicData.getComponentType(), basicData.getId());
         computerSetManager.assembleComponent();
         return computerSetManager.updateSet();
+    }
+
+    @DeleteMapping(value = "/{type}/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void removeComputerSet(@PathVariable("type") String type,
+                                  @PathVariable("id") long id) {
+
+        boolean removed = repositoryProvider.removeSet(type, id);
+
+        if (!removed)
+            throw new SetNotFoundException(type, id);
     }
 
 }

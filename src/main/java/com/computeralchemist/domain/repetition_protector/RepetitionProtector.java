@@ -3,7 +3,7 @@ package com.computeralchemist.domain.repetition_protector;
 import com.computeralchemist.domain.components.ComputerComponent;
 import com.computeralchemist.repository.RepositoryProvider;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 /**
  * @Author
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  * 09-04-2018
  * */
 
-@Service
+@Component
 public class RepetitionProtector {
     private RepositoryProvider repositoryProvider;
 

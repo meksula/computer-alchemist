@@ -1,9 +1,9 @@
 package com.computeralchemist.controller.components;
 
+import com.computeralchemist.controller.exception.SetNotFoundException;
 import com.computeralchemist.domain.components.ComponentType;
 import com.computeralchemist.domain.components.ComputerComponent;
 import com.computeralchemist.domain.components.disk.Disk;
-import com.computeralchemist.domain.components.ram.Ram;
 import com.computeralchemist.domain.creator.ComputerSetManager;
 import com.computeralchemist.domain.creator.setTypes.ComputerSet;
 import com.computeralchemist.domain.creator.setTypes.ComputerSetTypes;
@@ -13,10 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runner.Computer;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -25,21 +23,16 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.describedAs;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -214,6 +207,21 @@ public class CreatorControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isNotFound());
+    }
+
+    @Test(expected = SetNotFoundException.class)
+    public void deleteMethodTest_shouldRemoveResourceFormDatabase() throws Exception {
+        final long ID = 1;
+        ComputerSet computerSet = repositoryProvider.findSet(TYPE.toString(), ID);
+        assertNotNull(computerSet);
+
+        //request should remove computerSet with ID = 1
+        mockMvc.perform(delete("/set/" + TYPE.toString() + "/" + ID))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        ComputerSet shouldBeRemoved = repositoryProvider.findSet(TYPE.toString(), ID);
+        assertNull(shouldBeRemoved);
     }
 
 

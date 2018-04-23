@@ -30,4 +30,7 @@ public interface RepositoryProvider {
 
     List<ComputerComponent> getListOfComputerComponent(String type);
 
+    boolean removeSet(String type, long id);
+
+    boolean removeComponent(String component, long id);
 }
