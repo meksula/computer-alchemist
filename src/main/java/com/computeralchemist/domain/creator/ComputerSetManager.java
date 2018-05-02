@@ -1,5 +1,6 @@
 package com.computeralchemist.domain.creator;
 
+import com.computeralchemist.controller.exception.NothingHasChangedException;
 import com.computeralchemist.domain.creator.setTypes.ComputerSet;
 import com.computeralchemist.domain.creator.setTypes.ComputerSetTypes;
 

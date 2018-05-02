@@ -40,7 +40,7 @@ public class DiskRepositoryImpl implements DiskRepository {
 
     @Override
     public void update(Disk computerComponent) {
-
+        mongoOperations.save(computerComponent);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.computeralchemist.repository;
 
+import com.computeralchemist.controller.components.ComponentsController;
 import com.computeralchemist.controller.exception.ComponentExistException;
 import com.computeralchemist.controller.exception.SetNotFoundException;
 import com.computeralchemist.domain.components.ComponentTypeExtracter;
@@ -25,6 +26,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.*;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 /**
  * @Author
@@ -119,6 +123,12 @@ public class RepositoryProviderImpl implements RepositoryProvider {
     }
 
     @Override
+    public void updateComponent(ComputerComponent computerComponent) {
+        ComponentRepository repository = componentRepositories.get(computerComponent.getComponentType().toString());
+        repository.update(computerComponent);
+    }
+
+    @Override
     public void saveSet(ComputerSet computerSet) {
         String type = computerSet.getType().toString();
         setRepositories.get(type).save(computerSet);
@@ -143,7 +153,7 @@ public class RepositoryProviderImpl implements RepositoryProvider {
     public boolean removeSet(String type, long id) {
         Optional<ComputerSet> optional = setRepositories.get(type).findById(id);
 
-        if (optional.get() == null)
+        if (optional.get().getSetId() == 0)
             return false;
         else {
             setRepositories.get(type).deleteById(id);

@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.hateoas.Identifiable;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.util.Map;

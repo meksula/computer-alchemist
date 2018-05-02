@@ -39,7 +39,7 @@ public class PowerSupplyRepositoryImpl implements PowerSupplyRepository {
 
     @Override
     public void update(PowerSupply computerComponent) {
-
+        mongoOperations.save(computerComponent);
     }
 
     @Override

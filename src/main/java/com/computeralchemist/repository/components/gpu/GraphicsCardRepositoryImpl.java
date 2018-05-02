@@ -39,7 +39,7 @@ public class GraphicsCardRepositoryImpl implements GraphicsCardRepository {
 
     @Override
     public void update(GraphicsCard computerComponent) {
-
+        mongoOperations.save(computerComponent);
     }
 
     @Override

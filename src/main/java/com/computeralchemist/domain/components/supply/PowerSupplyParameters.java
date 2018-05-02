@@ -1,6 +1,7 @@
 package com.computeralchemist.domain.components.supply;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class PowerSupplyParameters {
     private String standard;

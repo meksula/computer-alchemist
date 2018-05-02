@@ -1,7 +1,7 @@
-package com.computeralchemist.domain.creator;
+package com.computeralchemist.controller.exception;
 
 import com.computeralchemist.domain.components.ComputerComponent;
-import com.computeralchemist.domain.creator.setTypes.ComputerSet; /**
+import com.computeralchemist.domain.creator.setTypes.ComputerSet;
 
  /**
  * @Author

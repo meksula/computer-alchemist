@@ -2,7 +2,8 @@ package com.computeralchemist.controller.components;
 
 
 import com.computeralchemist.controller.exception.*;
-import com.computeralchemist.domain.creator.NothingHasChangedException;
+import com.computeralchemist.controller.exception.NothingHasChangedException;
+import com.computeralchemist.domain.pickpocket.exception.HtmlParseFailedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -63,5 +64,17 @@ public class ExceptionHandlerAdvice {
     @ResponseStatus(HttpStatus.NOT_MODIFIED)
     public String computerSetNotModified() {
         return NothingHasChangedException.getRaport();
+    }
+
+    @ExceptionHandler(CannotReadUrlException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String cannotReadUri() {
+        return new CannotReadUrlException().getMessage();
+    }
+
+    @ExceptionHandler(HtmlParseFailedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String parserError() {
+        return new HtmlParseFailedException().getMessage();
     }
 }

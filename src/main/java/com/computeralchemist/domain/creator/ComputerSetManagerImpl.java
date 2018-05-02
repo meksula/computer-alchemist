@@ -1,6 +1,7 @@
 package com.computeralchemist.domain.creator;
 
 import com.computeralchemist.controller.exception.ComponentNotFoundException;
+import com.computeralchemist.controller.exception.NothingHasChangedException;
 import com.computeralchemist.controller.exception.SetNotFoundException;
 import com.computeralchemist.controller.exception.SetTypeNotSupportedException;
 import com.computeralchemist.domain.components.ComponentTypeExtracter;

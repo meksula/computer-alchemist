@@ -39,7 +39,7 @@ public class CpuRepositoryImpl implements CpuRepository {
 
     @Override
     public void update(Cpu computerComponent) {
-
+        mongoOperations.save(computerComponent);
     }
 
     @Override

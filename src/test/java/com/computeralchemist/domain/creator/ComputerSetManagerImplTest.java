@@ -1,5 +1,6 @@
 package com.computeralchemist.domain.creator;
 
+import com.computeralchemist.controller.exception.NothingHasChangedException;
 import com.computeralchemist.domain.components.ComponentType;
 import com.computeralchemist.domain.components.disk.Disk;
 import com.computeralchemist.domain.creator.setTypes.ComputerSet;

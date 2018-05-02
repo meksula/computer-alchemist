@@ -1,6 +1,7 @@
 package com.computeralchemist.domain.components.disk;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class DiskParameters {
     private DriveType type;

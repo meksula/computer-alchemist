@@ -22,6 +22,8 @@ public interface RepositoryProvider {
 
     ComputerSet findSet(String setType, long setId);
 
+    void updateComponent(ComputerComponent computerComponent);
+
     void saveSet(ComputerSet computerSet);
 
     long assignSetId(String type);

@@ -1,6 +1,7 @@
 package com.computeralchemist.domain.components.ram;
 
 import com.computeralchemist.domain.components.ComputerComponent;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -14,6 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
+@EqualsAndHashCode(callSuper = false)
 @Document(collection = "ram")
 public class Ram extends ComputerComponent {
 

@@ -40,6 +40,7 @@ public class OpinionDto {
 
     @Override
     public String toString() {
-        return super.toString();
+        return componentType + " with ID: " + productId + ", author: " + author + ", content: "
+                + content + ", rate: " + rate;
     }
 }

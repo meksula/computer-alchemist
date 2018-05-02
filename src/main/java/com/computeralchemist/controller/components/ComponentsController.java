@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -49,6 +50,10 @@ public class ComponentsController {
         computerComponent.add(linkTo(methodOn(ComponentsController.class)
                 .getComponent(component, id)).withSelfRel());
 
+        computerComponent.add(linkTo(methodOn(ComponentsController.class)
+                .getListOfComponents(computerComponent.getComponentType().toString()))
+                .withRel("collection"));
+
         return computerComponent;
     }
 
@@ -61,6 +66,8 @@ public class ComponentsController {
         } catch (NullPointerException e) {
             throw new ComponentListNotFoundException(component);
         }
+
+        componentList.sort(Comparator.comparing(ComputerComponent::getVotes).reversed());
 
         return setLinks(componentList);
     }
@@ -85,7 +92,7 @@ public class ComponentsController {
             throw new ComponentNotFoundException(component, id);
     }
 
-    @PutMapping(value = "/{id}/opinions")
+    @PostMapping(value = "/{id}/opinions")
     @ResponseStatus(HttpStatus.CREATED)
     public OpinionDto putOpinionOfComponent(@PathVariable("component")String component,
                                             @PathVariable("id")long id,

@@ -1,6 +1,7 @@
 package com.computeralchemist.domain.components;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.hateoas.ResourceSupport;
@@ -32,6 +33,7 @@ public abstract class ComputerComponent extends ResourceSupport {
     private String urlToResource;
     private double compatibleIndex;
     private long votes;
+    private double allPoints;
     private double ratesEvg;
 
 }

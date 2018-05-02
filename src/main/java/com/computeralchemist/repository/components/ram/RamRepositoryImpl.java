@@ -39,7 +39,7 @@ public class RamRepositoryImpl implements RamRepository {
 
     @Override
     public void update(Ram computerComponent) {
-
+        mongoOperations.save(computerComponent);
     }
 
     @Override

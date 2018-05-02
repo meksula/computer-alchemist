@@ -40,7 +40,7 @@ public class ComputerCaseRepositoryImpl implements ComputerCaseRepository {
 
     @Override
     public void update(ComputerCase computerComponent) {
-
+        mongoOperations.save(computerComponent);
     }
 
     @Override

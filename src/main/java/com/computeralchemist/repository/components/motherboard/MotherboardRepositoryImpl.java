@@ -39,7 +39,7 @@ public class MotherboardRepositoryImpl implements MotherboardRepository {
 
     @Override
     public void update(Motherboard computerComponent) {
-
+        mongoOperations.save(computerComponent);
     }
 
     @Override
