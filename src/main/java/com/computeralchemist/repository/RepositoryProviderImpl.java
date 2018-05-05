@@ -1,6 +1,5 @@
 package com.computeralchemist.repository;
 
-import com.computeralchemist.controller.components.ComponentsController;
 import com.computeralchemist.controller.exception.ComponentExistException;
 import com.computeralchemist.controller.exception.SetNotFoundException;
 import com.computeralchemist.domain.components.ComponentTypeExtracter;
@@ -26,9 +25,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.*;
-
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 /**
  * @Author

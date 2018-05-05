@@ -21,4 +21,5 @@ public class CpuParameters {
     private String bitArchitecture;
     private int cache;
     private double frequency;
+    private String integratedGpu;
 }

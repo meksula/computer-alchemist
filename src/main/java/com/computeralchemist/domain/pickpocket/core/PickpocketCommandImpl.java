@@ -1,14 +1,17 @@
 package com.computeralchemist.domain.pickpocket.core;
 
-import com.computeralchemist.controller.exception.CannotReadUrlException;
 import com.computeralchemist.domain.components.ComputerComponent;
+import com.computeralchemist.domain.pickpocket.exception.AddressNotSupportedException;
 import com.computeralchemist.domain.pickpocket.parser.AbstractHtmlParser;
 import com.computeralchemist.domain.pickpocket.parser.HtmlParserFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.computeralchemist.domain.pickpocket.parser.morele.HtmlParserFactoryMorele;
+import com.computeralchemist.domain.pickpocket.parser.xkom.HtmlParserFactoryXkom;
 import org.springframework.stereotype.Component;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @Author
@@ -19,23 +22,31 @@ import java.net.URL;
 @Component
 public class PickpocketCommandImpl implements PickpocketCommand {
     private HtmlParserFactory parserFactory;
-
-    @Autowired
-    public void setParserFactory(HtmlParserFactory parserFactory) {
-        this.parserFactory = parserFactory;
-    }
+    private AbstractHtmlParser htmlParser;
+    private String url;
 
     @Override
     public ComputerComponent executeUrl(String url, String componentType) {
-        AbstractHtmlParser htmlParser = parserFactory.createOne(componentType);
+        this.url = extractUrlFromString(url);
 
-        if (isUrlCorrect(url))
-            return htmlParser.parseHtmlToObject(url);
+        parserFactory = initializeFactory();
 
-        else throw new CannotReadUrlException(url);
+        if (isUrlCorrect())
+            htmlParser = parserFactory.createOne(componentType);
+
+        return htmlParser.parseHtmlToObject(this.url);
     }
 
-    private boolean isUrlCorrect(String url) {
+    private HtmlParserFactory initializeFactory() {
+        if (url.contains("morele"))
+            return new HtmlParserFactoryMorele();
+        else if (url.contains("x-kom"))
+            return new HtmlParserFactoryXkom();
+
+        else throw new AddressNotSupportedException();
+    }
+
+    private boolean isUrlCorrect() {
         try {
             new URL(url);
         } catch (MalformedURLException e) {
@@ -43,4 +54,15 @@ public class PickpocketCommandImpl implements PickpocketCommand {
         }
         return true;
     }
+
+    private String extractUrlFromString(String urlJson) {
+        Pattern pattern = Pattern.compile("(http)+.+(html)");
+        Matcher matcher = pattern.matcher(urlJson);
+
+        if (matcher.find())
+            return matcher.group();
+
+        else throw new AddressNotSupportedException();
+    }
+
 }

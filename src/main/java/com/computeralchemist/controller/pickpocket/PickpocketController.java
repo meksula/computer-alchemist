@@ -2,9 +2,14 @@ package com.computeralchemist.controller.pickpocket;
 
 import com.computeralchemist.domain.components.ComputerComponent;
 import com.computeralchemist.domain.pickpocket.core.PickpocketCommand;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @Author
@@ -29,4 +34,5 @@ public class PickpocketController {
 
         return pickpocketCommand.executeUrl(url, componentType);
     }
+
 }
