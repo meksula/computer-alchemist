@@ -2,6 +2,8 @@ package com.computeralchemist.repository.components.motherboard;
 
 import com.computeralchemist.domain.components.motherboard.Motherboard;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -16,6 +18,7 @@ import java.util.List;
  * */
 
 @Repository
+@CacheConfig(cacheNames = "componentCache")
 public class MotherboardRepositoryImpl implements MotherboardRepository {
     private MongoOperations mongoOperations;
     private final String TYPE = "motherboard";
@@ -43,6 +46,7 @@ public class MotherboardRepositoryImpl implements MotherboardRepository {
     }
 
     @Override
+    @Cacheable
     public Motherboard findByProductId(long productId) {
         Query query = new Query();
         query.addCriteria(Criteria.where("productId").is(productId));
@@ -50,6 +54,7 @@ public class MotherboardRepositoryImpl implements MotherboardRepository {
     }
 
     @Override
+    @Cacheable
     public Motherboard findByModel(String model) {
         Query query = new Query();
         query.addCriteria(Criteria.where("model").is(model));

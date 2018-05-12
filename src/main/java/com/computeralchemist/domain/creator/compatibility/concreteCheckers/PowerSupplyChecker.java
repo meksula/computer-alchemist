@@ -1,7 +1,6 @@
 package com.computeralchemist.domain.creator.compatibility.concreteCheckers;
 
 import com.computeralchemist.domain.components.ComputerComponent;
-import com.computeralchemist.domain.components.gpu.GraphicsCard;
 import com.computeralchemist.domain.components.supply.PowerSupply;
 import com.computeralchemist.domain.creator.compatibility.CompatibilityChecker;
 import com.computeralchemist.domain.creator.setTypes.ComputerSet;

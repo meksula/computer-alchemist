@@ -37,6 +37,15 @@ public abstract class AbstractHtmlParser {
         return computerComponent;
     }
 
+    public List<String> parseHtmlToList(String url) {
+        this.url = url;
+        connect();
+
+        List<String> list = fetchAllProperties();
+
+        return list.subList(6, list.size() - 1);
+    }
+
     private void connect() {
         try {
             document = Jsoup.connect(url).get();
@@ -48,21 +57,25 @@ public abstract class AbstractHtmlParser {
     public abstract void documentToObject();
 
     protected double extractDoubleFromString(String property) {
+        double resultDouble = 0;
+        String result = "";
         Pattern pattern = Pattern.compile("[0-9.]+");
         Matcher matcher = pattern.matcher(property);
-        String result = "";
 
         if (matcher.find())
             result = matcher.group();
 
-        return Double.parseDouble(result);
+        if (!result.isEmpty())
+            resultDouble = Double.parseDouble(result);
+
+        return resultDouble;
     }
 
     protected Elements fetchTrTags() {
         return document.select("tr");
     }
 
-    protected List<String> fetchAllProperties() {
+    private List<String> fetchAllProperties() {
         List<String> properties = new ArrayList<>();
         Elements elements = fetchTrTags();
 

@@ -4,13 +4,8 @@ import com.computeralchemist.domain.components.cpu.Cpu;
 import com.computeralchemist.domain.components.motherboard.Motherboard;
 import com.computeralchemist.domain.creator.setTypes.GamingComputerSet;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.springframework.security.core.parameters.P;
 
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.booleanThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockingDetails;
 
 /**
  * @Author
@@ -28,6 +23,8 @@ public class CpuCheckerTest {
 
     @Test
     public void setCpuCheckerReturnAlwaysTrue() {
+        assertNull(set.getMotherboard());
+
         boolean decision = cpuChecker.compatibilityCheck(set, cpu);
         assertTrue(decision);
     }

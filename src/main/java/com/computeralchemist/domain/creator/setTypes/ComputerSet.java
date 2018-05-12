@@ -1,6 +1,5 @@
 package com.computeralchemist.domain.creator.setTypes;
 
-import com.computeralchemist.domain.components.ComponentType;
 import com.computeralchemist.domain.components.computerCase.ComputerCase;
 import com.computeralchemist.domain.components.cpu.Cpu;
 import com.computeralchemist.domain.components.disk.Disk;
@@ -9,13 +8,9 @@ import com.computeralchemist.domain.components.motherboard.Motherboard;
 import com.computeralchemist.domain.components.ram.Ram;
 import com.computeralchemist.domain.components.supply.PowerSupply;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.hateoas.Identifiable;
 import org.springframework.hateoas.ResourceSupport;
-
-import java.util.Map;
 
 /**
  * @Author
@@ -36,7 +31,7 @@ public abstract class ComputerSet extends ResourceSupport {
     private long votes;
     private boolean compatible;
     private boolean finished;
-    private boolean isPublic;
+    private boolean isPublic = true;
 
     private Cpu cpu;
     private Motherboard motherboard;

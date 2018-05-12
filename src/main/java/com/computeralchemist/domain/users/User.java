@@ -42,6 +42,19 @@ public class User {
     @Field("bornyear")
     private int bornyear;
 
+    private String[] roles;
+
+    public User() {}
+
+    public User(User user) {
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.surname = user.getSurname();
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+        this.bornyear = user.getBornyear();
+    }
+
     @Override
     public String toString() {
         String c = ", ";
@@ -49,4 +62,7 @@ public class User {
                 + email + c + bornyear;
     }
 
+    public String[] getRoles() {
+        return roles;
+    }
 }

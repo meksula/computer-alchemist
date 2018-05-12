@@ -1,8 +1,9 @@
 package com.computeralchemist.repository.components.disk;
 
-import com.computeralchemist.domain.components.cpu.Cpu;
 import com.computeralchemist.domain.components.disk.Disk;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -17,6 +18,7 @@ import java.util.List;
  * */
 
 @Repository
+@CacheConfig(cacheNames = "componentCache")
 public class DiskRepositoryImpl implements DiskRepository {
     private MongoOperations mongoOperations;
     private final String TYPE = "disk";
@@ -44,6 +46,7 @@ public class DiskRepositoryImpl implements DiskRepository {
     }
 
     @Override
+    @Cacheable
     public Disk findByProductId(long productId) {
         Query query = new Query();
         query.addCriteria(Criteria.where("productId").is(productId));
@@ -51,6 +54,7 @@ public class DiskRepositoryImpl implements DiskRepository {
     }
 
     @Override
+    @Cacheable
     public Disk findByModel(String model) {
         Query query = new Query();
         query.addCriteria(Criteria.where("model").is(model));

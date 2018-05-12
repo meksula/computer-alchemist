@@ -1,5 +1,6 @@
 package com.computeralchemist.domain.creator;
 
+import com.computeralchemist.controller.exception.ComponentNotFoundException;
 import com.computeralchemist.controller.exception.NothingHasChangedException;
 import com.computeralchemist.domain.components.ComponentType;
 import com.computeralchemist.domain.components.disk.Disk;
@@ -19,6 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.assertTrue;
 
 
 /**
@@ -108,5 +110,18 @@ public class ComputerSetManagerImplTest {
         disk.setProducent("HardDrivesExtrm");
         disk.setModel(DISK_MODEL);
         diskRepository.save(disk);
+    }
+
+    @Test(expected = ComponentNotFoundException.class)
+    public void prepareComponentToAssembleTest() {
+        manager.prepareComponentToAssembling("disk", 32);
+    }
+
+    @Test(expected = ComponentNotFoundException.class)
+    public void assembleComponentShouldThrowException() {
+        assertTrue(manager.hasLoadedSet());
+
+        manager.prepareComponentToAssembling("ram", 33);
+        manager.assembleComponent();
     }
 }

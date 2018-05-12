@@ -18,6 +18,9 @@ public class RamChecker extends CompatibilityChecker {
     public boolean compatibilityCheck(final ComputerSet set, final ComputerComponent component) {
         Motherboard motherboard = set.getMotherboard();
 
+        if (motherboard == null)
+            return false;
+
         final double MOTH_FREQ = motherboard.getMotherboardParameters().getMemoryFrequency();
         final String MOTH_MEM_TYPE = motherboard.getMotherboardParameters().getMemoryType();
 

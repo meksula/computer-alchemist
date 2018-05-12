@@ -33,7 +33,7 @@ public class ComputerSetManagerImpl implements ComputerSetManager {
     private ComputerSetTypes type;
 
     @Autowired
-    public void setWorkSetRepository(ComputerFitter computerFitter,
+    public void setRepository(ComputerFitter computerFitter,
                                      RepositoryProvider repositoryProvider) {
         this.computerFitter = computerFitter;
         this.repositoryProvider = repositoryProvider;
@@ -94,12 +94,11 @@ public class ComputerSetManagerImpl implements ComputerSetManager {
 
         boolean compatible = checker.compatibilityCheck(computerSet, computerComponent);
 
-        if (compatible)
-            buildSet();
+        if (compatible) {
+            return buildSet();
+        }
 
         else throw new NothingHasChangedException(computerSet, computerComponent);
-
-        return computerSet;
     }
 
     @Override
@@ -128,8 +127,8 @@ public class ComputerSetManagerImpl implements ComputerSetManager {
         return computerSet != null;
     }
 
-    private void buildSet() {
-        this.computerSet = computerFitter.assembleComputerSet(this.computerSet, this.computerComponent);
+    private ComputerSet buildSet() {
+        return computerFitter.assembleComputerSet(this.computerSet, this.computerComponent);
     }
 
 }

@@ -47,14 +47,14 @@ public class DiskHtmlParserXkom extends AbstractHtmlParser {
 
     private void setType() {
         String type = fetchTrTags().get(TYPE_INDEX).select("td").text();
-        String result = "";
 
         Pattern pattern = Pattern.compile("[A-Z]{3}");
         Matcher matcher = pattern.matcher(type);
-        if (matcher.find())
-            result = matcher.group();
+        if (matcher.find()) {
+            String result = matcher.group();
+            parameters.setType(DriveType.valueOf(result));
+        }
 
-        parameters.setType(DriveType.valueOf(result));
     }
 
     private void setFormat() {

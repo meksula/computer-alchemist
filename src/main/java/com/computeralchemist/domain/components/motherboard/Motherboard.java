@@ -7,6 +7,8 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
+
 /**
  * @Author
  * Karol Meksuła
@@ -17,7 +19,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @EqualsAndHashCode(callSuper = false)
 @Document(collection = "motherboards")
-public class Motherboard extends ComputerComponent {
+public class Motherboard extends ComputerComponent implements Serializable {
 
     @Id
     private long productId;

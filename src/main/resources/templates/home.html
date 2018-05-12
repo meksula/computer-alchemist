@@ -1,10 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=divice-width, initial-scale=1"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+
     <title>Welcome - Computer Alchemist</title>
 </head>
+
 <body>
-    <p>Welcome in Computer Alchemist</p>
+
+<div class="flex-container">
+    <header>
+        <h1>Computer Alchemist RESTful API v1</h1>
+    </header>
+
+    <nav class="nav">
+        <img th:src="@{/images/computer-alchemist.png}">
+    </nav>
+
+    <article class="article">
+        <h3>Welcome in Computer Alchemist!</h3>
+
+        <h4>About:</h4>
+        <p>
+            Computer Alchemist v1.0 is a RESTful web service offering easy and fast construction of your own  computer.
+            API provides an interface thanks to which you can create your own repository of computer components and
+            computer sets.
+            The alchemist will ensure that the components selected by you are compatible with each other.
+            You can build your own set literally in 5 minutes! If you have a problem with choosing a particular
+            component,
+            the application will prompt you and choose the most compatible part according to selected criteria, e.g.
+            popularity.
+        </p>
+
+        <p>
+            Component's data is stored in our database and you can get the information with one request.
+            Additionally, there is the possibility of issue opinions, rates and comments about the component.
+            Thanks to this you will quickly find out the advantages and disadvantages of the product.
+        </p>
+
+        <p>
+            <u>Computer Alchemist's Pickpocket v 1.0</u> is an extension of Alchemist that provides even faster and simpler work with the API.
+            Thanks to the Pickpocket module, you can only `POST` the URL link to the product in the online store.
+            Pickpocket'll extract the product data for you, check its compatibility or compare prices at different online shops.
+            At this moment, supported online store is <a href="https://x-kom.pl/">https://x-kom.pl/</a> , and soon also others.
+        </p>
+
+        <p>
+            <u>Computer Alchemist's Store v 1.0</u> is a web service that allows users to create their own stores and services
+            such as: computer assembly, repair, etc. You do not have to do laboriously, repeatable work like typing the product data,
+            because our database already contains them! All you have to do is import the right product into your store
+            and give it price, delivery time, form of delivery and payment.
+            That's all! The application makes it extremely easy to create a store that could absorb many of your time and money.
+        </p>
+
+        <p>
+            Computer Alchemist has client applications: desktop and online.
+            Thanks to the nice graphical user interface, working with the API is very simple and pleasant.
+            <li><a href="download/javaFXClient" style="color: aqua">Download Computer Alchemist desktop</a></li>
+            <li><a href="goToAngularClient" style="color: aqua">Client application on your browser</a></li>
+        </p>
+
+        <h4>See documentation:</h4>
+        <a th:href="@{/doc}">Documentation of Computer Alchemist v1</a>
+
+    </article>
+
+    <footer>Created by Karol Meksuła - 2018</footer>
+</div>
+
 </body>
 </html>

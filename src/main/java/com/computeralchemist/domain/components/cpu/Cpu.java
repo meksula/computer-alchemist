@@ -6,6 +6,8 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
+
 /**
  * @Author
  * Karol Meksuła
@@ -15,7 +17,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Getter
 @Setter
 @Document(collection = "cpu")
-public class Cpu extends ComputerComponent {
+public class Cpu extends ComputerComponent implements Serializable {
 
     @Id
     private long productId;

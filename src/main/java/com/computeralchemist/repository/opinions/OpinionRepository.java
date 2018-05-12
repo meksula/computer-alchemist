@@ -22,6 +22,8 @@ public interface OpinionRepository extends MongoRepository<OpinionDto, Long> {
 
     List<OpinionDto> findByComponentTypeAndProductId(ComponentType type, long productId);
 
+    OpinionDto findByOpinionId(long opinionId);
+
     void deleteByOpinionId(long opinionId);
 
     default long assignId() {

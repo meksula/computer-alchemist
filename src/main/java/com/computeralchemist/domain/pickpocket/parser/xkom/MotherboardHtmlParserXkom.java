@@ -3,6 +3,7 @@ package com.computeralchemist.domain.pickpocket.parser.xkom;
 import com.computeralchemist.domain.components.ComponentType;
 import com.computeralchemist.domain.components.motherboard.Motherboard;
 import com.computeralchemist.domain.components.motherboard.MotherboardParameters;
+import com.computeralchemist.domain.pickpocket.exception.ValueMappingException;
 import com.computeralchemist.domain.pickpocket.parser.AbstractHtmlParser;
 
 import java.util.ArrayList;
@@ -58,7 +59,13 @@ public class MotherboardHtmlParserXkom extends AbstractHtmlParser {
     }
 
     private void setDescription() {
-        String description = document.select("p").get(DESCRIPTION_INDEX).text();
+        String description;
+        try {
+            description = document.select("p").get(DESCRIPTION_INDEX).text();
+        } catch (IndexOutOfBoundsException e){
+            description = "";
+        }
+
         motherboard.setDescription(description);
     }
 
@@ -109,7 +116,11 @@ public class MotherboardHtmlParserXkom extends AbstractHtmlParser {
                 break;
         }
 
-        double max = Collections.max(properties);
+        double max = 0;
+
+        if (properties.size() > 0)
+            max = Collections.max(properties);
+
         parameters.setMemoryFrequency(max);
     }
 

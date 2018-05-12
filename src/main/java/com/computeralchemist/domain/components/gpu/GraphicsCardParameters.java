@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -15,9 +16,8 @@ import java.util.List;
 
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = false)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class GraphicsCardParameters {
+public class GraphicsCardParameters implements Serializable {
     private String chipset;
     private int memory;
     private String memoryType;

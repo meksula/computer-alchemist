@@ -69,6 +69,9 @@ public class ComputerFitterImpl implements ComputerFitter {
         this.computerSet = computerSet;
         this.computerComponent = computerComponent;
 
+        if (computerSet == null || computerComponent == null)
+            throw new AssembleSetException();
+
         ComponentType type = computerComponent.getComponentType();
         assemblingMethods.get(type).run();
 

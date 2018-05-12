@@ -18,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 /**
  * @Author
@@ -80,6 +81,13 @@ public class ComputerFitterImplTest {
         computerFitter.assembleComputerSet(computerSet, cpu);
         assertNotNull(computerSet.getCpu());
         assertEquals(CPU_PRODUCENT, computerSet.getCpu().getProducent());
+    }
+
+    @Test(expected = AssembleSetException.class)
+    public void assembleShouldThrowException() {
+        GamingComputerSet set = mock(GamingComputerSet.class);
+
+        computerFitter.assembleComputerSet(set, null);
     }
 
 }

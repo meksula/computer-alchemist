@@ -1,8 +1,9 @@
 package com.computeralchemist.repository.components.compCase;
 
 import com.computeralchemist.domain.components.computerCase.ComputerCase;
-import com.computeralchemist.domain.components.cpu.Cpu;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -17,6 +18,7 @@ import java.util.List;
  * */
 
 @Repository
+@CacheConfig(cacheNames = "componentCache")
 public class ComputerCaseRepositoryImpl implements ComputerCaseRepository {
     private MongoOperations mongoOperations;
     private final String TYPE = "computercase";
@@ -44,6 +46,7 @@ public class ComputerCaseRepositoryImpl implements ComputerCaseRepository {
     }
 
     @Override
+    @Cacheable(value = "componentCache")
     public ComputerCase findByProductId(long productId) {
         Query query = new Query();
         query.addCriteria(Criteria.where("productId").is(productId));
@@ -51,6 +54,7 @@ public class ComputerCaseRepositoryImpl implements ComputerCaseRepository {
     }
 
     @Override
+    @Cacheable(value = "componentCache")
     public ComputerCase findByModel(String model) {
         Query query = new Query();
         query.addCriteria(Criteria.where("model").is(model));
@@ -58,6 +62,7 @@ public class ComputerCaseRepositoryImpl implements ComputerCaseRepository {
     }
 
     @Override
+    @Cacheable(value = "componentCache")
     public List<ComputerCase> findAllComponents() {
         return mongoOperations.findAll(ComputerCase.class, TYPE);
     }
@@ -68,4 +73,5 @@ public class ComputerCaseRepositoryImpl implements ComputerCaseRepository {
         query.addCriteria(Criteria.where("productId").is(productId));
         mongoOperations.remove(query, ComputerCase.class, TYPE);
     }
+
 }

@@ -1,15 +1,22 @@
 package com.computeralchemist.controller.pickpocket;
 
+import com.computeralchemist.controller.components.NewComponentsController;
 import com.computeralchemist.domain.components.ComputerComponent;
 import com.computeralchemist.domain.pickpocket.core.PickpocketCommand;
+import com.computeralchemist.repository.RepositoryProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 /**
  * @Author
@@ -32,7 +39,25 @@ public class PickpocketController {
     public ComputerComponent getComponentFromHtml(@RequestBody String url,
                                                   @PathVariable("componentType")String componentType) {
 
-        return pickpocketCommand.executeUrl(url, componentType);
+        ComputerComponent computerComponent = pickpocketCommand.executeUrl(url, componentType);
+
+        computerComponent.add(linkTo(methodOn(NewComponentsController.class)
+                .addNewComponent(componentType))
+                .withRel("save in database"));
+
+        computerComponent.add(linkTo(methodOn(PickpocketController.class)
+                .getComponentProperties(url, componentType))
+                .withRel("properties"));
+
+        return computerComponent;
+    }
+
+    @PostMapping(value = "/{componentType}/properties", produces = "application/json; charset=UTF-8")
+    @ResponseStatus(HttpStatus.OK)
+    public List<String> getComponentProperties(@RequestBody String url,
+                                               @PathVariable("componentType")String componentType) {
+
+        return pickpocketCommand.executeUrlForProperties(url, componentType);
     }
 
 }

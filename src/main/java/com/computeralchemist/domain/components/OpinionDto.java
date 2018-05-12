@@ -1,14 +1,17 @@
 package com.computeralchemist.domain.components;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.hateoas.Identifiable;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.ResourceSupport;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 
 /**
  * @Author
@@ -19,10 +22,11 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Document(collection = "opinions")
-public class OpinionDto {
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+public class OpinionDto extends ResourceSupport implements Identifiable<Link> {
 
     @Id
-    private long opinionId;
+    private Long opinionId;
 
     private ComponentType componentType;
     private long productId;
@@ -43,4 +47,5 @@ public class OpinionDto {
         return componentType + " with ID: " + productId + ", author: " + author + ", content: "
                 + content + ", rate: " + rate;
     }
+
 }

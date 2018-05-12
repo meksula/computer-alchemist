@@ -22,6 +22,7 @@ public class MotherboardHtmlParserXkomTest {
     private static MotherboardParameters parameters;
 
     private final static String MOBO_URL = "https://www.x-kom.pl/p/393638-plyta-glowna-socket-1151-gigabyte-z370p-d3.html";
+    //private final static String MOBO_URL = "https://www.x-kom.pl/p/351559-plyta-glowna-socket-am4-asrock-a320m-hdv.html";
 
     private final String PRODUCENT = "Gigabyte";
     private final String MODEL = "Z370P D3";

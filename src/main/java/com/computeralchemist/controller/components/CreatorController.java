@@ -10,12 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import sun.security.provider.certpath.OCSPResponse;
 
-import java.net.URI;
 import java.util.List;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 /**
  * @Author
@@ -39,38 +38,33 @@ public class CreatorController {
     private String type;
     private long id;
 
-    @PostMapping(value = "/{user}", produces = "application/json; charset=UTF-8")
+    @PostMapping(value = "/{user}")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> initNewCompSet(@PathVariable("user") String user,
-                                      @RequestBody String type) {
+    public ComputerSet initNewCompSet(@PathVariable("user") String user,
+                                            @RequestBody String type) {
 
         ComputerSet computerSet = computerSetManager.initSet(user, type);
 
         this.type = computerSet.getType().toString();
         this.id = computerSet.getSetId();
 
+        buildHateoasLinks(computerSet);
+
         computerSetManager.updateSet();
 
-        return ResponseEntity.created(URI.create(buildUri())).build();
+        return computerSet;
     }
 
-    private String buildUri() {
-        return ServletUriComponentsBuilder
-                .fromCurrentContextPath()
-                .path("/set").path("/{type}").path("/{id}")
-                .buildAndExpand(type, id)
-                .toUriString();
-    }
-
-    @GetMapping(value = "/{type}/{id}", produces = "application/json; charset=UTF-8")
+    @GetMapping(value = "/{type}/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ComputerSet getCompSet(@PathVariable("type") String type,
                                   @PathVariable("id") long id) {
 
-        return computerSetManager.loadExistComputerSet(type, id);
+        ComputerSet computerSet = computerSetManager.loadExistComputerSet(type, id);
+        return buildHateoasLinks(computerSet);
     }
 
-    @GetMapping(value = "/{type}", produces = "application/json; charset=UTF-8")
+    @GetMapping(value = "/{type}")
     @ResponseStatus(HttpStatus.OK)
     public List<ComputerSet> getCompSetList(@PathVariable("type")String type) {
         List<ComputerSet> list;
@@ -83,7 +77,7 @@ public class CreatorController {
         return list;
     }
 
-    @PutMapping(value = "/{type}/{id}", produces = "application/json; charset=UTF-8")
+    @PutMapping(value = "/{type}/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ComputerSet assembleComponentToSet(@PathVariable("type")String type,
                                               @PathVariable("id")long id,
@@ -92,18 +86,40 @@ public class CreatorController {
         computerSetManager.loadExistComputerSet(type, id);
         computerSetManager.prepareComponentToAssembling(basicData.getComponentType(), basicData.getId());
         computerSetManager.assembleComponent();
-        return computerSetManager.updateSet();
+        ComputerSet updatedSet = computerSetManager.updateSet();
+        return buildHateoasLinks(updatedSet);
     }
 
     @DeleteMapping(value = "/{type}/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void removeComputerSet(@PathVariable("type") String type,
-                                  @PathVariable("id") long id) {
+    public ResponseEntity<?> removeComputerSet(@PathVariable("type") String type,
+                                            @PathVariable("id") long id) {
 
-        boolean removed = repositoryProvider.removeSet(type, id);
+        Boolean removed = repositoryProvider.removeSet(type, id);
 
         if (!removed)
             throw new SetNotFoundException(type, id);
+
+        return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
+    private ComputerSet buildHateoasLinks(ComputerSet computerSet) {
+        computerSet.add(linkTo(methodOn(CreatorController.class)
+                .getCompSet(this.type, id))
+                .withSelfRel());
+
+        computerSet.add(linkTo(methodOn(CreatorController.class)
+                .getCompSet(this.type, id))
+                .withRel("collection"));
+
+        computerSet.add(linkTo(methodOn(CreatorController.class)
+                .removeComputerSet(this.type, id))
+                .withRel("delete"));
+
+        computerSet.add(linkTo(methodOn(CreatorController.class)
+                .assembleComponentToSet(this.type, id, new ComponentBasicData()))
+                .withRel("assemble component"));
+
+        return computerSet;
     }
 
 }

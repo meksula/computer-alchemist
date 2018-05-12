@@ -1,7 +1,10 @@
 package com.computeralchemist;
 
+import com.computeralchemist.configuration.CacheAppConfig;
+import com.computeralchemist.configuration.SecurityConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
 
 /**
  * @Author
@@ -10,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * */
 
 @SpringBootApplication
+@Import({CacheAppConfig.class, SecurityConfig.class})
 public class ComputerAlchemistApiApplication {
 
 	public static void main(String[] args) {

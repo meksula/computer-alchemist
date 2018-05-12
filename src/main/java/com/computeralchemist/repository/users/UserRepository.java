@@ -3,6 +3,8 @@ package com.computeralchemist.repository.users;
 import com.computeralchemist.domain.users.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.util.Optional;
+
 /**
  * @Author
  * Karol Meksuła
@@ -11,9 +13,9 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface UserRepository extends MongoRepository<User, Long> {
 
-    User findById(long userId);
+    Optional<User> findById(long userId);
 
-    User findByUsername(String username);
+    Optional<User> findByUsername(String username);
 
     @Override
     <S extends User> S save(S user);

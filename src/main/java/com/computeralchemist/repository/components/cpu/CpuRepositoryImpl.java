@@ -2,6 +2,8 @@ package com.computeralchemist.repository.components.cpu;
 
 import com.computeralchemist.domain.components.cpu.Cpu;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -16,6 +18,7 @@ import java.util.List;
  * */
 
 @Repository
+@CacheConfig(cacheNames = "componentCache")
 public class CpuRepositoryImpl implements CpuRepository {
     private MongoOperations mongoOperations;
     private final String TYPE = "cpu";
@@ -43,6 +46,7 @@ public class CpuRepositoryImpl implements CpuRepository {
     }
 
     @Override
+    @Cacheable
     public Cpu findByProductId(long id) {
         Query query = new Query();
         query.addCriteria(Criteria.where("productId").is(id));
@@ -50,6 +54,7 @@ public class CpuRepositoryImpl implements CpuRepository {
     }
 
     @Override
+    @Cacheable
     public Cpu findByModel(String model) {
         Query query = new Query();
         query.addCriteria(Criteria.where("model").is(model));

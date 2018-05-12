@@ -1,6 +1,5 @@
 package com.computeralchemist.controller.pickpocket;
 
-import com.computeralchemist.controller.exception.BadComponentTypeException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +21,10 @@ import java.util.Arrays;
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import static org.hamcrest.Matchers.*;
 
 /**
  * @Author
@@ -66,7 +68,7 @@ public class PickpocketControllerTest {
     }
 
 
-    private final String TYPE = "cpu";
+    private final String TYPE = "gpu";
     private final String LINK = "https://www.x-kom.pl/p/317002-karta-graficzna-nvidia-msi-geforce-gtx-1060-gaming-x-6gb-gddr5.html";
     private final String INVALID_TYPE = "sev3d";
 
@@ -88,6 +90,16 @@ public class PickpocketControllerTest {
                 .accept(mediaType))
                 .andDo(print())
                 .andExpect(status().isConflict());
+    }
+
+    @Test
+    public void requestShouldReturnListOfProperties() throws Exception {
+        mockMvc.perform(post("/pickpocket/" + TYPE + "/properties")
+                .content(LINK)
+                .contentType(mediaType)
+                .accept(mediaType))
+                .andDo(print())
+                .andExpect(jsonPath("$", hasSize(14)));
     }
 
 }

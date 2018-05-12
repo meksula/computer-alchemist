@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 /**
  * @Author
  * Karol Meksuła
@@ -13,7 +15,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class CpuParameters {
+public class CpuParameters implements Serializable {
     private int cores;
     private String series;
     private String socket;

@@ -1,10 +1,10 @@
 package com.computeralchemist.domain.components.supply;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -15,9 +15,8 @@ import java.util.List;
 
 @Getter
 @Setter
-@EqualsAndHashCode
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class PowerSupplyParameters {
+public class PowerSupplyParameters implements Serializable {
     private String standard;
     private int power;
     private String pfc;

@@ -23,7 +23,7 @@ public class GraphicsCardChecker extends CompatibilityChecker {
         final List<String> MOBO_CONNECTORS = set.getMotherboard().getMotherboardParameters().getOtherSockets();
 
         for (String connector : MOBO_CONNECTORS) {
-            if (connector.equals(MAIN_CONNECTOR))
+            if (connector.contains(MAIN_CONNECTOR))
                 return true;
         }
 

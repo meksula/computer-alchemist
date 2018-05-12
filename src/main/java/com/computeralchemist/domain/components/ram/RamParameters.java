@@ -1,9 +1,10 @@
 package com.computeralchemist.domain.components.ram;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
 
 /**
  * @Author
@@ -13,9 +14,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = false)
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class RamParameters {
+public class RamParameters implements Serializable {
     private String memoryType;
     private String cooler;
     private int modules;

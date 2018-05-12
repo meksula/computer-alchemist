@@ -5,6 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 /**
  * @Author
  * Karol Meksuła
@@ -15,7 +17,7 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class DiskParameters {
+public class DiskParameters implements Serializable {
     private DriveType type;
     private String format;
     private int capacity;

@@ -14,8 +14,8 @@ public class NothingHasChangedException extends RuntimeException {
     private static ComputerComponent computerComponent;
 
     public NothingHasChangedException(ComputerSet computerSet, ComputerComponent computerComponent) {
-        this.computerSet = computerSet;
-        this.computerComponent = computerComponent;
+        NothingHasChangedException.computerSet = computerSet;
+        NothingHasChangedException.computerComponent = computerComponent;
     }
 
     public static String getRaport() {

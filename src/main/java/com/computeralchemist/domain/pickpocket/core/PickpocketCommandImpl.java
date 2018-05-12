@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,6 +36,18 @@ public class PickpocketCommandImpl implements PickpocketCommand {
             htmlParser = parserFactory.createOne(componentType);
 
         return htmlParser.parseHtmlToObject(this.url);
+    }
+
+    @Override
+    public List<String> executeUrlForProperties(String url, String componentType) {
+        this.url = extractUrlFromString(url);
+
+        parserFactory = initializeFactory();
+
+        if (isUrlCorrect())
+            htmlParser = parserFactory.createOne(componentType);
+
+        return htmlParser.parseHtmlToList(this.url);
     }
 
     private HtmlParserFactory initializeFactory() {
