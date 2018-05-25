@@ -12,8 +12,8 @@ public class ComponentNotFoundException extends RuntimeException {
     private static long productId;
 
     public ComponentNotFoundException(String component, long id) {
-        this.component = component;
-        this.productId = id;
+        ComponentNotFoundException.component = component;
+        productId = id;
     }
 
     public static class Error {

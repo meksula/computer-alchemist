@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pickpocket</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/doc.css}">
+</head>
+<body>
+<h2>Computer alchemist v 1.0 API Documentation</h2>
+<hr>
+
+<button><a th:href="@{/basic}">Basic documentation</a></button>
+<button><a th:href="@{/types}">Complete list of all parameters</a></button>
+<button><a th:href="@{/doc}">Components documentation</a></button>
+<button><a th:href="@{/builder}">Alchemist builder documentation</a></button>
+<button><a th:href="@{/pickpocket}">Pickpocket documentation</a></button>
+<hr>
+
+<table>
+    <tr>
+        <th>HTTP Method</th>
+        <th>URI Address</th>
+        <th>Parameters</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>POST</td>
+        <td>/pickpocket/{componentType}</td>
+        <td>
+            <li>@param `componentType` define type of <a th:href="@{/types}">component</a>.</li>
+        </td>
+        <td>
+            <p>
+                To extract Computer Component from `URL` use this URI.
+                You have to `POST` link to website with JSON in format: {"url" : "link here"}
+            <hr><br>Example: /set/motherboard
+            <br>{"url" : "https://www.google.pl/.../"}
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td>POST</td>
+        <td>/pickpocket/{componentType}</td>
+        <td>
+            <li>@param `componentType` define type of <a th:href="@{/types}">component</a>.</li>
+        </td>
+        <td>
+            <p>
+                To extract list of properties from `URL` use this URI.
+                You have to `POST` link to website with JSON in format: {"url" : "link here"}
+                Use it if you want to check out correct of retrieved values.
+            <hr><br>Example: /set/motherboard
+            <br>{"url" : "https://www.google.pl/.../"}
+            </p>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

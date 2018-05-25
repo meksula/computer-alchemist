@@ -1,16 +1,11 @@
 package com.computeralchemist.domain.components;
 
 import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.Links;
 import org.springframework.hateoas.ResourceSupport;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 /**
  * @Author

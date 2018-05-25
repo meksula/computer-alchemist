@@ -2,7 +2,6 @@ package com.computeralchemist.configuration;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +14,6 @@ import java.io.IOException;
  * 11-05-2018
  * */
 
-@Component
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override

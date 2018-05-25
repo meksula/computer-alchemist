@@ -1,13 +1,13 @@
 package com.computeralchemist.domain.users;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 /**
  * @Author
@@ -17,29 +17,35 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @Document(collection = "users")
 public class User {
-    @NotNull
+
     @Id
     private long id;
 
-    @Field("username")
+    @NotNull
+    @Size(min = 5, max = 16)
     private String username;
 
-    @Field("name")
+    @NotNull
+    @Size(min = 2, max = 15)
     private String name;
 
-    @Field("surname")
+    @NotNull
+    @Size(min = 2, max = 20)
     private String surname;
 
-    @Field("email")
+    @Email
     private String email;
 
-    @Field("password")
+    @NotNull
+    @Size(min = 6, max = 30)
     private String password;
 
-    @Field("bornyear")
+    @Min(1930)
+    @Max(2015)
     private int bornyear;
 
     private String[] roles;
@@ -48,21 +54,13 @@ public class User {
 
     public User(User user) {
         this.id = user.getId();
+        this.name = user.getName();
         this.username = user.getUsername();
         this.surname = user.getSurname();
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.bornyear = user.getBornyear();
+        this.roles = user.getRoles();
     }
 
-    @Override
-    public String toString() {
-        String c = ", ";
-        return username + c + name + c + surname + c
-                + email + c + bornyear;
-    }
-
-    public String[] getRoles() {
-        return roles;
-    }
 }

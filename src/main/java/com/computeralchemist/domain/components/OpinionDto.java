@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.Identifiable;
 import org.springframework.hateoas.Link;
@@ -12,6 +13,7 @@ import org.springframework.hateoas.ResourceSupport;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @Author
@@ -23,7 +25,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @Document(collection = "opinions")
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class OpinionDto extends ResourceSupport implements Identifiable<Link> {
+public class OpinionDto extends ResourceSupport {
 
     @Id
     private Long opinionId;

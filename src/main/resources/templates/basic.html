@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Basic docs</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/doc.css}">
+</head>
+<body>
+<h2>Computer alchemist v 1.0 API Documentation</h2>
+<hr>
+
+<button><a th:href="@{/basic}">Basic documentation</a></button>
+<button><a th:href="@{/types}">Complete list of all parameters</a></button>
+<button><a th:href="@{/doc}">Components documentation</a></button>
+<button><a th:href="@{/builder}">Alchemist builder documentation</a></button>
+<button><a th:href="@{/pickpocket}">Pickpocket documentation</a></button>
+<hr>
+
+<table>
+    <tr>
+        <th>HTTP Method</th>
+        <th>URI Address</th>
+        <th>Parameters</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>PUT</td>
+        <td>/register</td>
+        <td>
+        </td>
+        <td>
+            <p> Able to register new User.
+            <hr><br>Example: /register
+            <br>JSON format: {"username" : "...", "name" : "...", "surname" : "...",
+            <br>"email" : "...", "password", "bornyear" : "..."}
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td>GET</td>
+        <td>/opinion/{id}</td>
+        <td>
+            <li>@param `id` define ID of opinion in database.</li>
+        </td>
+        <td>
+            <p> Able to read any opinion by ID.
+            <hr><br>Example: /opinion/33593
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td>GET</td>
+        <td>/user/{username}</td>
+        <td>
+            <li>@param `username` define name of User.</li>
+        </td>
+        <td>
+            <p> Able to view user's account data.
+            <hr><br>Example: /user/John_doe
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td>DELETE</td>
+        <td>/user/{username}</td>
+        <td>
+            <li>@param `username` define name of User.</li>
+        </td>
+        <td>
+            <p> Remove user from database.
+            <hr><br>Example: /user/John_doe
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td>PUT</td>
+        <td>/user/{username}</td>
+        <td>
+            <li>@param `username` define name of User.</li>
+        </td>
+        <td>
+            <p> Update data of user's account.
+                <br>JSON format: {"username" : "...", "name" : "...", "surname" : "...",
+                <br>"email" : "...", "password", "bornyear" : "..."}
+            <hr><br>Example: /user/John_doe
+            </p>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

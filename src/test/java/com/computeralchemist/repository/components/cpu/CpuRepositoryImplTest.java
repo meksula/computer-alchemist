@@ -1,7 +1,5 @@
 package com.computeralchemist.repository.components.cpu;
 
-import com.computeralchemist.domain.components.ComputerComponent;
-import com.computeralchemist.domain.components.computerCase.ComputerCase;
 import com.computeralchemist.domain.components.cpu.Cpu;
 import com.computeralchemist.domain.components.cpu.CpuParameters;
 import lombok.extern.slf4j.Slf4j;

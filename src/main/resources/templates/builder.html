@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Builder</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/doc.css}">
+</head>
+<body>
+<h2>Computer alchemist v 1.0 API Documentation</h2>
+<hr>
+
+<button><a th:href="@{/basic}">Basic documentation</a></button>
+<button><a th:href="@{/types}">Complete list of all parameters</a></button>
+<button><a th:href="@{/doc}">Components documentation</a></button>
+<button><a th:href="@{/builder}">Alchemist builder documentation</a></button>
+<button><a th:href="@{/pickpocket}">Pickpocket documentation</a></button>
+
+<table>
+    <tr>
+        <th>HTTP Method</th>
+        <th>URI Address</th>
+        <th>Parameters</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>POST</td>
+        <td>/set/{username}</td>
+        <td>
+            <li>@param `username` define name of User creating a set.</li>
+        </td>
+        <td>
+            <p>
+                To create empty Computer Set able to assemble. Returned JSON object contain assigned id
+                what you can use to localise your Computer Set.
+            <hr><br>Example: /set/John_Doe
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td>GET</td>
+        <td>/set/{type}/{id}</td>
+        <td>
+            <li>@param `type` define type of Computer Set <a th:href="@{/types}">(Look at list of parameters)</a>.</li>
+            <hr>
+            <li>@param `id` define ID number in database.</li>
+        </td>
+        <td>
+            <p>
+                You can view any Computer Set what is marked as `public`.
+            <hr><br>Example: /set/gaming/53
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td>GET</td>
+        <td>/set/{type}</td>
+        <td>
+            <li>@param `type` define type of Computer Set <a th:href="@{/types}">(Look at list of parameters)</a>.</li>
+        </td>
+        <td>
+            <p>
+                You can view list of Computer Sets of `type` what is marked as `public`.
+            <hr><br>Example: /set/work
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td>PUT</td>
+        <td>/set/{type}/{id}</td>
+        <td>
+            <li>@param `type` define type of Computer Set <a th:href="@{/types}">(Look at list of parameters)</a>.</li>
+            <hr>
+            <li>@param `id` define ID number in database.</li>
+        </td>
+        <td>
+            <p>
+                The most important part of this module. Here you can assemble Component with Computer Set.
+            <br>There is required JSON Object to PUT:
+            <br> {"componentType" : "ram", "id" : 3443}
+            <br> Above JSON define type and id of Component to be assembled to Computer Set.
+            <hr><br>Example: /set/work/344
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td>DELETE</td>
+        <td>/set/{type}/{id}</td>
+        <td>
+            <li>@param `type` define type of Computer Set <a th:href="@{/types}">(Look at list of parameters)</a>.</li>
+            <hr>
+            <li>@param `id` define ID number in database.</li>
+        </td>
+        <td>
+            <p>
+                Remove component from database.
+            <hr><br>Example: /set/work/344
+            </p>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

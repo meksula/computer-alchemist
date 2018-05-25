@@ -1,6 +1,7 @@
 package com.computeralchemist.domain.components.cpu;
 
 import com.computeralchemist.domain.components.ComputerComponent;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -16,6 +17,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
+@EqualsAndHashCode(callSuper = false)
 @Document(collection = "cpu")
 public class Cpu extends ComputerComponent implements Serializable {
 

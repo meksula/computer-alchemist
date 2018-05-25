@@ -5,9 +5,8 @@ import com.computeralchemist.controller.exception.*;
 import com.computeralchemist.controller.exception.NothingHasChangedException;
 import com.computeralchemist.domain.pickpocket.exception.HtmlParseFailedException;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author
@@ -77,4 +76,11 @@ public class ExceptionHandlerAdvice {
     public String parserError() {
         return new HtmlParseFailedException().getMessage();
     }
+
+    @ExceptionHandler(IndexOutOfBoundsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String pickpocketFailure() {
+        return "Something went wrong: Pickpocket cannot parse some values.";
+    }
+
 }

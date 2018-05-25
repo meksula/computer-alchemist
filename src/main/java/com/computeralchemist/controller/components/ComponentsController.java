@@ -5,7 +5,6 @@ import com.computeralchemist.domain.components.ComponentType;
 import com.computeralchemist.domain.components.ComputerComponent;
 import com.computeralchemist.controller.exception.ComponentNotFoundException;
 import com.computeralchemist.domain.components.OpinionDto;
-import com.computeralchemist.domain.components.cpu.Cpu;
 import com.computeralchemist.repository.RepositoryProvider;
 import com.computeralchemist.repository.opinions.OpinionRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -22,4 +22,24 @@ public class MainApiController {
         return "documentation";
     }
 
+    @GetMapping("/types")
+    public String types() {
+        return "types";
+    }
+
+    @GetMapping("/basic")
+    public String basic() {
+        return "basic";
+    }
+
+    @GetMapping("/builder")
+    public String builder() {
+        return "builder";
+    }
+
+    @GetMapping("/pickpocket")
+    public String pickpocket() {
+        return "pickpocket";
+    }
+
 }
