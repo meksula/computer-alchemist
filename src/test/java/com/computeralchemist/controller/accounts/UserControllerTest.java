@@ -2,7 +2,9 @@ package com.computeralchemist.controller.accounts;
 
 import com.computeralchemist.domain.users.Address;
 import com.computeralchemist.domain.users.User;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.computeralchemist.repository.users.UserRepository;
+import lombok.ToString;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -20,20 +21,24 @@ import org.springframework.web.context.WebApplicationContext;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.hamcrest.Matchers.containsString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * @Author
  * Karol Meksuła
- * 24-05-2018
+ * 31-05-2018
  * */
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-@WebAppConfiguration
-public class RegistrationControllerTest {
+public class UserControllerTest {
+
+    @Autowired
+    private UserRepository userRepository;
 
     private MediaType mediaType = new MediaType(MediaType.APPLICATION_JSON_UTF8.getType(),
             MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
@@ -53,25 +58,8 @@ public class RegistrationControllerTest {
 
     private MockMvc mockMvc;
 
-    private final String USERNAME = "MikołajKopernik";
-    private final String NAME = "Mikołaj";
-    private final String SURNAME = "Kopernik";
-    private final String EMAIL = "Kopernik@Mikołaj.com";
-    private final String PASSWORD = "Kopernik22222";
-    private final int BORN = 1994;
-
-    private User prepareValidUser() {
-        User user = new User();
-        user.setUsername(USERNAME);
-        user.setName(NAME);
-        user.setSurname(SURNAME);
-        user.setEmail(EMAIL);
-        user.setPassword(PASSWORD);
-        user.setBornyear(BORN);
-        user.setAddress(new Address());
-
-        return user;
-    }
+    private final long USER_ID = 1000;
+    private final String EMAIL = "random.email@gmail.com";
 
     @Before
     public void setUp() {
@@ -79,13 +67,39 @@ public class RegistrationControllerTest {
     }
 
     @Test
-    public void shouldSuccessfullSaveNewUserInDatabase() throws Exception {
-        mockMvc.perform(post("/registration")
-                .content(new ObjectMapper().writeValueAsBytes(prepareValidUser()))
-                .contentType(mediaType)
+    public void endpointShouldReturnUserEmailById() throws Exception {
+        saveFakeUser();
+
+        mockMvc.perform(get("/user/" + USER_ID + "/mail/")
                 .accept(mediaType))
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString(EMAIL)));
+    }
+
+    private void saveFakeUser() {
+        User user = new User();
+        user.setId(USER_ID);
+        user.setEmail(EMAIL);
+        user.setAddress(new Address());
+
+        userRepository.save(user);
+    }
+
+    @Test
+    public void endpointShouldReturnUserAddressById() throws Exception {
+        saveFakeUser();
+
+        mockMvc.perform(get("/user/" + USER_ID + "/address/")
+                .accept(mediaType))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string("{\"country\":null,\"city\":null,\"zipCode\":null,\"houseNumber\":null}"));
+    }
+
+    @After
+    public void tearDown() {
+        userRepository.deleteAll();
     }
 
 }

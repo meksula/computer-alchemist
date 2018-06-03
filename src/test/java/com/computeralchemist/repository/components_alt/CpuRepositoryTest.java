@@ -4,6 +4,7 @@ import com.computeralchemist.controller.exception.ComponentNotFoundException;
 import com.computeralchemist.domain.components.ComponentType;
 import com.computeralchemist.domain.components.ComputerComponent;
 import com.computeralchemist.domain.components.cpu.Cpu;
+import com.computeralchemist.repository.components.cpu.CpuRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 public class CpuRepositoryTest {
 
-    @Autowired
+    /*@Autowired
     private CpuRepository cpuRepository;
 
     @Autowired
@@ -48,5 +49,5 @@ public class CpuRepositoryTest {
     public void facadeTest() {
         ComputerComponent cpuOptional = facade.findComponentById("cpu", 30L);
         assertNull(cpuOptional);
-    }
+    }*/
 }
