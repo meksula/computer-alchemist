@@ -5,6 +5,7 @@ import com.computeralchemist.controller.exception.*;
 import com.computeralchemist.controller.exception.NothingHasChangedException;
 import com.computeralchemist.domain.pickpocket.exception.HtmlParseFailedException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.bind.annotation.*;
 
@@ -83,4 +84,9 @@ public class ExceptionHandlerAdvice {
         return "Something went wrong: Pickpocket cannot parse some values.";
     }
 
+    @ExceptionHandler(AuthorizationServiceException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String authenticationFailure() {
+        return "Bad credentials. Cannot authentication.";
+    }
 }

@@ -3,17 +3,11 @@ package com.computeralchemist.controller.pickpocket;
 import com.computeralchemist.controller.components.NewComponentsController;
 import com.computeralchemist.domain.components.ComputerComponent;
 import com.computeralchemist.domain.pickpocket.core.PickpocketCommand;
-import com.computeralchemist.repository.RepositoryProvider;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -34,7 +28,7 @@ public class PickpocketController {
         this.pickpocketCommand = pickpocketCommand;
     }
 
-    @PostMapping(value = "/{componentType}", produces = "application/json; charset=UTF-8")
+    @PostMapping(value = "/{componentType}")
     @ResponseStatus(HttpStatus.OK)
     public ComputerComponent getComponentFromHtml(@RequestBody String url,
                                                   @PathVariable("componentType")String componentType) {
@@ -52,7 +46,7 @@ public class PickpocketController {
         return computerComponent;
     }
 
-    @PostMapping(value = "/{componentType}/properties", produces = "application/json; charset=UTF-8")
+    @PostMapping(value = "/{componentType}/properties")
     @ResponseStatus(HttpStatus.OK)
     public List<String> getComponentProperties(@RequestBody String url,
                                                @PathVariable("componentType")String componentType) {

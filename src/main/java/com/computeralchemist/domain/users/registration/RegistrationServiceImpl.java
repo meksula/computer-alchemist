@@ -23,9 +23,15 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public User registerUser(User user) {
-        if (userValidator.validateUser(user))
+        if (userValidator.validateUser(user)) {
+            addAuthority(user);
             return userRepository.save(user);
+        }
 
         throw new UserValidateException();
+    }
+
+    private void addAuthority(User user) {
+        user.setRoles(new String[] {"USER"});
     }
 }

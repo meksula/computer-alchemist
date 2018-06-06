@@ -7,8 +7,6 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
-
 /**
  * @Author
  * Karol Meksuła
@@ -33,7 +31,7 @@ public class User {
     private int bornyear;
     private Address address;
 
-    private List<String> roles;
+    private String[] roles;
 
     public User() {}
 

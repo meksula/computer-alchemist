@@ -9,6 +9,7 @@ import com.computeralchemist.repository.RepositoryProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,7 +42,7 @@ public class CreatorController {
     @PostMapping(value = "/{user}")
     @ResponseStatus(HttpStatus.CREATED)
     public ComputerSet initNewCompSet(@PathVariable("user") String user,
-                                            @RequestBody String type) {
+                                      @RequestBody String type) {
 
         ComputerSet computerSet = computerSetManager.initSet(user, type);
 
@@ -90,6 +91,7 @@ public class CreatorController {
         return buildHateoasLinks(updatedSet);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping(value = "/{type}/{id}")
     public ResponseEntity<?> removeComputerSet(@PathVariable("type") String type,
                                             @PathVariable("id") long id) {

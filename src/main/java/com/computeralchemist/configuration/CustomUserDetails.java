@@ -2,9 +2,11 @@ package com.computeralchemist.configuration;
 
 import com.computeralchemist.domain.users.User;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * @Author
@@ -20,7 +22,13 @@ public class CustomUserDetails extends User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        Collection<GrantedAuthority> grantedAuthorities = new ConcurrentLinkedQueue<>();
+
+        for (String role : super.getRoles()) {
+            grantedAuthorities.add(new SimpleGrantedAuthority(role.toUpperCase()));
+        }
+
+        return grantedAuthorities;
     }
 
     @Override

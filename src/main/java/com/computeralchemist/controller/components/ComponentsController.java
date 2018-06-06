@@ -9,6 +9,7 @@ import com.computeralchemist.repository.RepositoryProvider;
 import com.computeralchemist.repository.opinions.OpinionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -81,6 +82,7 @@ public class ComponentsController {
         return components;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void removeComponent(@PathVariable("component")String component,

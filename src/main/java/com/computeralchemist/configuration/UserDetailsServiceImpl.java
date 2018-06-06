@@ -2,7 +2,6 @@ package com.computeralchemist.configuration;
 
 import com.computeralchemist.domain.users.User;
 import com.computeralchemist.repository.users.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,8 +19,7 @@ import java.util.Optional;
 public class UserDetailsServiceImpl implements UserDetailsService {
     private UserRepository userRepository;
 
-    @Autowired
-    public void setDependecies(UserRepository userRepository) {
+    public UserDetailsServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
