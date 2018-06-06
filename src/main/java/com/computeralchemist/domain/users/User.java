@@ -7,7 +7,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.constraints.*;
+import java.util.List;
 
 /**
  * @Author
@@ -25,30 +25,15 @@ public class User {
     @Id
     private long id;
 
-    @NotNull
-    @Size(min = 5, max = 16)
     private String username;
-
-    @NotNull
-    @Size(min = 2, max = 15)
     private String name;
-
-    @NotNull
-    @Size(min = 2, max = 20)
     private String surname;
-
-    @Email
     private String email;
-
-    @NotNull
-    @Size(min = 6, max = 30)
     private String password;
-
-    @Min(1930)
-    @Max(2015)
     private int bornyear;
+    private Address address;
 
-    private String[] roles;
+    private List<String> roles;
 
     public User() {}
 
@@ -61,6 +46,7 @@ public class User {
         this.password = user.getPassword();
         this.bornyear = user.getBornyear();
         this.roles = user.getRoles();
+        this.address = user.getAddress();
     }
 
 }

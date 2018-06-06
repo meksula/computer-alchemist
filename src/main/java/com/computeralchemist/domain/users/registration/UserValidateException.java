@@ -1,4 +1,4 @@
-package com.computeralchemist.domain.users;
+package com.computeralchemist.domain.users.registration;
 
 /**
  * @Author
