@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pickpocket</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/doc.css}">
+</head>
+
+<body>
+    <h2>Create CA account</h2>
+
+    <button><a th:href="@{/doc/basic}">Basic documentation</a></button>
+    <button><a th:href="@{/doc/types}">Complete list of all parameters</a></button>
+    <button><a th:href="@{/doc}">Components documentation</a></button>
+    <button><a th:href="@{/doc/builder}">Alchemist builder documentation</a></button>
+    <button><a th:href="@{/doc/pickpocket}">Pickpocket documentation</a></button>
+    <button><a th:href="@{/doc/registration}">Registration & Login</a></button>
+    <hr>
+
+    <table>
+        <tr>
+            <th>HTTP Method</th>
+            <th>URI Address</th>
+            <th>Parameters</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>POST</td>
+            <td>/api/v1/registration</td>
+            <td>
+            </td>
+            <td>
+                <p>
+                    To register in CA API execute POST request with JSON (Required JSON format bellow):
+                <hr>
+                <br>{"username" : "...",<br>"name" : "...",<br>"surname":"...",<br>"email" : "..."<br>"password":"...",
+                <br>"bornyear" : ... ,<br>"address" : "{ //optional, if You want use CA Store }" }
+                <br>
+                <hr>
+                If you want to use Computer Alchemist Store (CAS) from one account, please enter your address too.
+                You can do it later of course.
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td>POST</td>
+            <td>/api/v1/login</td>
+            <td>
+            </td>
+            <td>
+                <p>
+                    Use this endpoint to login to CA API
+                <hr><br>(Required JSON format):
+                <br>{"username" : "...", "password" : "..."}
+                </p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -1,5 +1,6 @@
 package com.computeralchemist.repository.components.compCase;
 
+import com.computeralchemist.domain.components.ComputerComponent;
 import com.computeralchemist.domain.components.computerCase.ComputerCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -34,10 +35,10 @@ public class ComputerCaseRepositoryImpl implements ComputerCaseRepository {
     }
 
     @Override
-    public long save(ComputerCase computerComponent) {
+    public ComputerComponent save(ComputerCase computerComponent) {
         computerComponent.setProductId(nextId());
         mongoOperations.save(computerComponent, TYPE);
-        return computerComponent.getProductId();
+        return computerComponent;
     }
 
     @Override

@@ -36,9 +36,6 @@ public class CreatorController {
         this.repositoryProvider = repositoryProvider;
     }
 
-    private String type;
-    private long id;
-
     @PostMapping(value = "/{user}")
     @ResponseStatus(HttpStatus.CREATED)
     public ComputerSet initNewCompSet(@PathVariable("user") String user,
@@ -46,11 +43,7 @@ public class CreatorController {
 
         ComputerSet computerSet = computerSetManager.initSet(user, type);
 
-        this.type = computerSet.getType().toString();
-        this.id = computerSet.getSetId();
-
         buildHateoasLinks(computerSet);
-
         computerSetManager.updateSet();
 
         return computerSet;
@@ -67,21 +60,14 @@ public class CreatorController {
 
     @GetMapping(value = "/{type}")
     @ResponseStatus(HttpStatus.OK)
-    public List<ComputerSet> getCompSetList(@PathVariable("type")String type) {
-        List<ComputerSet> list;
-        try {
-            list = computerSetManager.getComputerSetList(type);
-        } catch (NullPointerException npo) {
-            throw new SetListNotFoundException(type);
-        }
-
-        return list;
+    public List<ComputerSet> getCompSetList(@PathVariable("type") String type) {
+        return computerSetManager.getComputerSetList(type);
     }
 
     @PutMapping(value = "/{type}/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ComputerSet assembleComponentToSet(@PathVariable("type")String type,
-                                              @PathVariable("id")long id,
+    public ComputerSet assembleComponentToSet(@PathVariable("type") String type,
+                                              @PathVariable("id") long id,
                                               @RequestBody ComponentBasicData basicData) {
 
         computerSetManager.loadExistComputerSet(type, id);
@@ -94,7 +80,7 @@ public class CreatorController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping(value = "/{type}/{id}")
     public ResponseEntity<?> removeComputerSet(@PathVariable("type") String type,
-                                            @PathVariable("id") long id) {
+                                               @PathVariable("id") long id) {
 
         Boolean removed = repositoryProvider.removeSet(type, id);
 
@@ -105,20 +91,23 @@ public class CreatorController {
     }
 
     private ComputerSet buildHateoasLinks(ComputerSet computerSet) {
+        final String type = computerSet.getType().toString();
+        final long id = computerSet.getSetId();
+
         computerSet.add(linkTo(methodOn(CreatorController.class)
-                .getCompSet(this.type, id))
+                .getCompSet(type, id))
                 .withSelfRel());
 
         computerSet.add(linkTo(methodOn(CreatorController.class)
-                .getCompSet(this.type, id))
+                .getCompSet(type, id))
                 .withRel("collection"));
 
         computerSet.add(linkTo(methodOn(CreatorController.class)
-                .removeComputerSet(this.type, id))
+                .removeComputerSet(type, id))
                 .withRel("delete"));
 
         computerSet.add(linkTo(methodOn(CreatorController.class)
-                .assembleComponentToSet(this.type, id, new ComponentBasicData()))
+                .assembleComponentToSet(type, id, new ComponentBasicData()))
                 .withRel("assemble component"));
 
         return computerSet;

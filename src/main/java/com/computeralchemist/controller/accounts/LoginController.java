@@ -1,11 +1,7 @@
 package com.computeralchemist.controller.accounts;
 
-import com.computeralchemist.configuration.UserDetailsServiceImpl;
 import com.computeralchemist.domain.users.User;
 import com.computeralchemist.repository.users.UserRepository;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,13 +18,10 @@ import org.springframework.web.bind.annotation.*;
 public class LoginController {
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
-    private UserDetailsServiceImpl userDetailsService;
 
-    public LoginController(UserRepository userRepository, PasswordEncoder passwordEncoder,
-                           UserDetailsServiceImpl userDetailsService) {
+    public LoginController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.userDetailsService = userDetailsService;
     }
 
     @PostMapping
@@ -45,14 +38,3 @@ public class LoginController {
 
 }
 
-@Getter
-@Setter
-class BasicCredentials {
-    private String username;
-    private String password;
-
-    public BasicCredentials(@JsonProperty("username") String username, @JsonProperty("password") String password) {
-        this.username = username;
-        this.password = password;
-    }
-}

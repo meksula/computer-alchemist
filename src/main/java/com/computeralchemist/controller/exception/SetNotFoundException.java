@@ -12,8 +12,8 @@ public class SetNotFoundException extends RuntimeException {
     private static long id;
 
     public SetNotFoundException(String type, long id) {
-        this.type = type;
-        this.id = id;
+        SetNotFoundException.type = type;
+        SetNotFoundException.id = id;
     }
 
     public static class Error {

@@ -12,9 +12,9 @@ import java.util.List;
  * */
 
 public interface RepositoryProvider {
-    long saveComponent(String json);
+    ComputerComponent saveComponent(String json);
 
-    long saveComponent(ComputerComponent component);
+    ComputerComponent saveComponent(ComputerComponent component);
 
     ComputerComponent findComponent(String componentType, long productId);
 

@@ -1,5 +1,7 @@
 package com.computeralchemist.repository.components;
 
+import com.computeralchemist.domain.components.ComputerComponent;
+
 import java.util.List;
 
 /**
@@ -16,7 +18,7 @@ public interface ComponentRepository<T> {
         return count() + 1;
     }
 
-    long save(T computerComponent);
+    ComputerComponent save(T computerComponent);
 
     void update(T computerComponent);
 

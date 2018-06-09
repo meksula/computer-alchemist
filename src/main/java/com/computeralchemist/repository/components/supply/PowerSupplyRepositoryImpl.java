@@ -1,5 +1,6 @@
 package com.computeralchemist.repository.components.supply;
 
+import com.computeralchemist.domain.components.ComputerComponent;
 import com.computeralchemist.domain.components.supply.PowerSupply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -34,10 +35,10 @@ public class PowerSupplyRepositoryImpl implements PowerSupplyRepository {
     }
 
     @Override
-    public long save(PowerSupply computerComponent) {
+    public ComputerComponent save(PowerSupply computerComponent) {
         computerComponent.setProductId(nextId());
         mongoOperations.save(computerComponent, TYPE);
-        return computerComponent.getProductId();
+        return computerComponent;
     }
 
     @Override

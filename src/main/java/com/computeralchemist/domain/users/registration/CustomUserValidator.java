@@ -84,11 +84,12 @@ public class CustomUserValidator implements UserValidator {
     }
 
     private boolean checkAddress() {
-        return user.getAddress() != null;
+        return true;
     }
 
     private boolean isAllowOrNot() {
         for (Boolean flag : flags) {
+            System.out.println(flag);
             if (!flag)
                 return false;
         }

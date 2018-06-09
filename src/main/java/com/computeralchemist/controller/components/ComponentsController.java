@@ -1,6 +1,5 @@
 package com.computeralchemist.controller.components;
 
-import com.computeralchemist.controller.exception.ComponentListNotFoundException;
 import com.computeralchemist.domain.components.ComponentType;
 import com.computeralchemist.domain.components.ComputerComponent;
 import com.computeralchemist.controller.exception.ComponentNotFoundException;
@@ -9,6 +8,7 @@ import com.computeralchemist.repository.RepositoryProvider;
 import com.computeralchemist.repository.opinions.OpinionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,18 +38,19 @@ public class ComponentsController {
         this.opinionRepository = opinionRepository;
     }
 
-    @GetMapping(value = "/{id}", produces = "application/json; charset:UTF-8")
+    @GetMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ComputerComponent getComponent(@PathVariable("component") String component,
                                           @PathVariable("id") long id) {
 
         ComputerComponent computerComponent = repositoryProvider.findComponent(component, id);
+        return addHalLinks(computerComponent);
+    }
 
-        if (computerComponent == null)
-            throw new ComponentNotFoundException(component, id);
-
+    private ComputerComponent addHalLinks(ComputerComponent computerComponent) {
         computerComponent.add(linkTo(methodOn(ComponentsController.class)
-                .getComponent(component, id)).withSelfRel());
+                .getComponent(computerComponent.getComponentType().toString(), computerComponent.getProductId()))
+                .withSelfRel());
 
         computerComponent.add(linkTo(methodOn(ComponentsController.class)
                 .getListOfComponents(computerComponent.getComponentType().toString()))
@@ -58,16 +59,10 @@ public class ComponentsController {
         return computerComponent;
     }
 
-    @GetMapping(produces = "application/json; charset:UTF-8")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<ComputerComponent> getListOfComponents(@PathVariable("component")String component) {
-        List<ComputerComponent> componentList;
-        try {
-            componentList = repositoryProvider.getListOfComputerComponent(component);
-        } catch (NullPointerException e) {
-            throw new ComponentListNotFoundException(component);
-        }
-
+    public List<ComputerComponent> getListOfComponents(@PathVariable("component") String component) {
+        List<ComputerComponent> componentList = repositoryProvider.getListOfComputerComponent(component);
         componentList.sort(Comparator.comparing(ComputerComponent::getVotes).reversed());
 
         return setLinks(componentList);
@@ -84,20 +79,19 @@ public class ComponentsController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping(value = "/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void removeComponent(@PathVariable("component")String component,
-                                @PathVariable("id")long id) {
+    public ResponseEntity<?> removeComponent(@PathVariable("component") String component,
+                                             @PathVariable("id") long id) {
 
-        boolean removed = repositoryProvider.removeComponent(component, id);
+        if (repositoryProvider.removeComponent(component, id))
+            return new ResponseEntity<>(HttpStatus.OK);
 
-        if (!removed)
-            throw new ComponentNotFoundException(component, id);
+        else throw new ComponentNotFoundException(component, id);
     }
 
     @PostMapping(value = "/{id}/opinions")
     @ResponseStatus(HttpStatus.CREATED)
-    public OpinionDto putOpinionOfComponent(@PathVariable("component")String component,
-                                            @PathVariable("id")long id,
+    public OpinionDto putOpinionOfComponent(@PathVariable("component") String component,
+                                            @PathVariable("id") long id,
                                             @RequestBody OpinionDto opinionDto) {
 
         opinionDto.setComponentType(ComponentType.valueOf(component));
@@ -110,8 +104,8 @@ public class ComponentsController {
 
     @GetMapping(value = "/{id}/opinions")
     @ResponseStatus(HttpStatus.OK)
-    public List<OpinionDto> getOpinionsOfComponent(@PathVariable("component")String component,
-                                                   @PathVariable("id")long id) {
+    public List<OpinionDto> getOpinionsOfComponent(@PathVariable("component") String component,
+                                                   @PathVariable("id") long id) {
 
         return opinionRepository.findByComponentTypeAndProductId(ComponentType.valueOf(component), id);
     }

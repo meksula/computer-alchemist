@@ -1,5 +1,6 @@
 package com.computeralchemist.repository.components.ram;
 
+import com.computeralchemist.domain.components.ComputerComponent;
 import com.computeralchemist.domain.components.ram.Ram;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -34,10 +35,10 @@ public class RamRepositoryImpl implements RamRepository {
     }
 
     @Override
-    public long save(Ram computerComponent) {
+    public ComputerComponent save(Ram computerComponent) {
         computerComponent.setProductId(nextId());
         mongoOperations.save(computerComponent, TYPE);
-        return computerComponent.getProductId();
+        return computerComponent;
     }
 
     @Override

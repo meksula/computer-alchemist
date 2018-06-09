@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
  * */
 
 @RestController
-@RequestMapping("/registration")
+@RequestMapping("/api/v1/registration")
 public class RegistrationController {
     private RegistrationService registrationService;
 

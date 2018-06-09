@@ -109,13 +109,7 @@ public class RepositoryProviderImpl implements RepositoryProvider {
 
     @Override
     public ComputerSet findSet(String setType, long setId) {
-        Optional<ComputerSet> optional;
-        try {
-            optional = setRepositories.get(setType).findById(setId);
-            return optional.get();
-        } catch (NoSuchElementException exception) {
-            throw new SetNotFoundException(setType, setId);
-        }
+        return (ComputerSet) setRepositories.get(setType).findById(setId).orElse(null);
     }
 
     @Override
@@ -171,17 +165,17 @@ public class RepositoryProviderImpl implements RepositoryProvider {
     private ComponentTypeExtracter extracter = ComponentTypeExtracter.getInstance();
 
     @Override
-    public long saveComponent(String json) throws RepositoryMapperException {
+    public ComputerComponent saveComponent(String json) throws RepositoryMapperException {
         String type = assignType(json);
         ComponentRepository componentRepository = componentRepositories.get(type);
-        long id = 0;
+        ComputerComponent computerComponent = null;
         try {
             ComputerComponent component = JsonParsers.valueOf(type).parseStringToComponent(json);
 
             if (protector.isComponentExist(component))
                 throw new ComponentExistException(component);
 
-            id = componentRepository.save(component);
+            computerComponent = componentRepository.save(component);
 
         } catch (IllegalArgumentException e) {
             throw new RepositoryMapperException(type);
@@ -189,22 +183,18 @@ public class RepositoryProviderImpl implements RepositoryProvider {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return id;
+        return computerComponent;
     }
 
     @Override
-    public long saveComponent(ComputerComponent component) {
-        if (protector.isComponentExist(component)) {
+    public ComputerComponent saveComponent(ComputerComponent component) {
+        if (protector.isComponentExist(component))
             throw new ComponentExistException(component);
-        }
 
-        return componentRepositories.get(component
-                .getComponentType()
-                .toString())
-                .save(component);
+        return componentRepositories.get(component.getComponentType().toString()).save(component);
     }
 
-    private String assignType(String json) {
+    private String assignType (String json){
         return extracter.extractTypeFromJson(json);
     }
 

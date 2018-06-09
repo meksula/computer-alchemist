@@ -1,5 +1,6 @@
 package com.computeralchemist.repository.components.gpu;
 
+import com.computeralchemist.domain.components.ComputerComponent;
 import com.computeralchemist.domain.components.gpu.GraphicsCard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -34,10 +35,10 @@ public class GraphicsCardRepositoryImpl implements GraphicsCardRepository {
     }
 
     @Override
-    public long save(GraphicsCard computerComponent) {
+    public ComputerComponent save(GraphicsCard computerComponent) {
         computerComponent.setProductId(nextId());
         mongoOperations.save(computerComponent ,TYPE);
-        return computerComponent.getProductId();
+        return computerComponent;
     }
 
     @Override

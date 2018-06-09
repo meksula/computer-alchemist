@@ -1,5 +1,6 @@
 package com.computeralchemist.repository.components.disk;
 
+import com.computeralchemist.domain.components.ComputerComponent;
 import com.computeralchemist.domain.components.disk.Disk;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -34,10 +35,10 @@ public class DiskRepositoryImpl implements DiskRepository {
     }
 
     @Override
-    public long save(Disk computerComponent) {
+    public ComputerComponent save(Disk computerComponent) {
         computerComponent.setProductId(nextId());
         mongoOperations.save(computerComponent, TYPE);
-        return computerComponent.getProductId();
+        return computerComponent;
     }
 
     @Override

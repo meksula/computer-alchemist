@@ -1,5 +1,6 @@
 package com.computeralchemist.repository.components.cpu;
 
+import com.computeralchemist.domain.components.ComputerComponent;
 import com.computeralchemist.domain.components.cpu.Cpu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -34,10 +35,10 @@ public class CpuRepositoryImpl implements CpuRepository {
     }
 
     @Override
-    public long save(Cpu computerComponent) {
+    public ComputerComponent save(Cpu computerComponent) {
         computerComponent.setProductId(nextId());
         mongoOperations.save(computerComponent, TYPE);
-        return computerComponent.getProductId();
+        return computerComponent;
     }
 
     @Override

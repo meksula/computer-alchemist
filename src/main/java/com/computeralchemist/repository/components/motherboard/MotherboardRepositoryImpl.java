@@ -1,5 +1,6 @@
 package com.computeralchemist.repository.components.motherboard;
 
+import com.computeralchemist.domain.components.ComputerComponent;
 import com.computeralchemist.domain.components.motherboard.Motherboard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -34,10 +35,10 @@ public class MotherboardRepositoryImpl implements MotherboardRepository {
     }
 
     @Override
-    public long save(Motherboard computerComponent) {
+    public ComputerComponent save(Motherboard computerComponent) {
         computerComponent.setProductId(nextId());
         mongoOperations.save(computerComponent, TYPE);
-        return computerComponent.getProductId();
+        return computerComponent;
     }
 
     @Override
